@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Sentinel benchmarks protocol — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link is-active">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /benchmarks/protocol
+  </div>
+  <h1 class="op-title">Agent Sentinel benchmarks protocol</h1>
+  <div class="op-status">
+    <span class="status-chip in-progress">v1.0 · awaiting first benchmark run</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/benchmarks/protocol.md</code> · v1.0 · 2026.05</p>
+<p>The portfolio claims Agent Sentinel is adoptable as runtime infrastructure. Adoption requires operating metrics that adopters can plan against. This protocol specifies what we measure, how we measure it, and what the published numbers mean.</p>
+<p>A safety detector with no published benchmarks is, from an adopter's standpoint, indistinguishable from a research demo.</p>
+<hr />
+<h2>Metrics we publish</h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>What it is</th>
+<th>Why it matters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Latency overhead</strong> (median, p95, p99)</td>
+<td>Wall-clock added per agent turn when Sentinel is in the loop</td>
+<td>Determines whether Sentinel can run synchronously vs. in a side-channel</td>
+</tr>
+<tr>
+<td><strong>Memory overhead</strong> (steady-state)</td>
+<td>Additional RSS when Sentinel is running</td>
+<td>Determines deployment footprint constraints</td>
+</tr>
+<tr>
+<td><strong>CPU overhead</strong> (mean utilization)</td>
+<td>Additional CPU during agent activity</td>
+<td>Sizes the operational cost</td>
+</tr>
+<tr>
+<td><strong>Storage overhead</strong> (per session)</td>
+<td>Disk used per scanned session, retained vs. archived</td>
+<td>Determines longitudinal storage budget</td>
+</tr>
+<tr>
+<td><strong>Precision</strong> (CCD-positive predictive value)</td>
+<td>Of cases flagged, fraction that are CCD</td>
+<td>Determines false-positive trust budget</td>
+</tr>
+<tr>
+<td><strong>Recall</strong> (CCD true-positive rate)</td>
+<td>Of CCD cases present, fraction flagged</td>
+<td>Determines what slips through</td>
+</tr>
+<tr>
+<td><strong>F1</strong></td>
+<td>Harmonic mean of precision and recall</td>
+<td>Single-number summary</td>
+</tr>
+<tr>
+<td><strong>AUROC</strong></td>
+<td>Area under the precision-recall curve</td>
+<td>Threshold-independent quality</td>
+</tr>
+<tr>
+<td><strong>False-positive rate on benign workloads</strong></td>
+<td>Triggering on clean sessions</td>
+<td>Determines whether Sentinel produces alert fatigue</td>
+</tr>
+<tr>
+<td><strong>Time-to-detection</strong> (in-session)</td>
+<td>Number of turns until Sentinel triggers in a CCD session</td>
+<td>Determines whether intervention is possible mid-session</td>
+</tr>
+</tbody>
+</table>
+<p>Every metric is reported with a 95% confidence interval and the sample size.</p>
+<hr />
+<h2>What we benchmark against</h2>
+<p>Four populations:</p>
+<h3>1. The held-out corpus (preprint Section 9.1)</h3>
+<p>$\geq 100$ CCD-suspect cases plus matched controls. Precision, recall, F1, AUROC, time-to-detection.</p>
+<h3>2. Synthetic clean workloads</h3>
+<p>Three synthetic populations of "clean" coding-assistant sessions:
+- <strong>Greenfield:</strong> session that builds a feature from scratch, all claims grounded in committed code.
+- <strong>Maintenance:</strong> session that fixes bugs, makes incremental changes, all changes verifiable.
+- <strong>Spec-first:</strong> session in a repo where documentation legitimately precedes runtime artifacts.</p>
+<p>Each population $\geq 50$ sessions. False-positive rate reported per population. Spec-first is the highest-stakes false-positive surface because legitimate doc-before-runtime should not trigger F2.</p>
+<h3>3. Real production-shape workloads (pilot adopter data, when available)</h3>
+<p>Anonymized, opt-in, post-disclosure session traces from pilot partners. Reported when at least one pilot partner has consented to publish.</p>
+<h3>4. Adversarial workloads</h3>
+<p>The red-team groups' submissions from the H4 adversarial evaluation. False-negative rates per documented evasion path (Ev-1 through Ev-4 from the threat model).</p>
+<hr />
+<h2>Operational benchmarks (latency, memory, CPU, storage)</h2>
+<p>Run on three reference machines:</p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Specs</th>
+<th>Use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Dev laptop</strong></td>
+<td>M-series Mac, 16 GB RAM, NVMe SSD</td>
+<td>Local developer use</td>
+</tr>
+<tr>
+<td><strong>Cloud workstation</strong></td>
+<td>x86_64, 8 vCPU, 16 GB RAM</td>
+<td>Remote dev / IDE plugin</td>
+</tr>
+<tr>
+<td><strong>Server inline</strong></td>
+<td>x86_64, 32 vCPU, 64 GB RAM</td>
+<td>Inline runtime for an enterprise CI/agent pipeline</td>
+</tr>
+</tbody>
+</table>
+<p>For each profile, three workload shapes:</p>
+<ul>
+<li><strong>Single-session monitor:</strong> one active session, transcript appended turn-by-turn.</li>
+<li><strong>Multi-session monitor:</strong> 5 concurrent sessions.</li>
+<li><strong>High-volume server:</strong> 100 concurrent sessions (server profile only).</li>
+</ul>
+<p>Reported per workload:
+- Median, p95, p99 latency added per turn (target: median $\leq 50$ ms, p95 $\leq 200$ ms, p99 $\leq 500$ ms on dev laptop with single session).
+- Steady-state RSS overhead.
+- Mean CPU utilization during agent activity.
+- Disk: per-session JSONL log size, scan-report size.</p>
+<hr />
+<h2>What we publish</h2>
+<p>For each release of PROACTIVE/SentinelOS, a <code>benchmarks/[version]/</code> directory contains:</p>
+<ul>
+<li><code>methodology.md</code> — re-statement of this protocol with any version-specific adjustments noted.</li>
+<li><code>results.json</code> — machine-readable results in the format below.</li>
+<li><code>results.md</code> — human-readable summary.</li>
+<li><code>raw/</code> — full per-run logs.</li>
+<li><code>notebooks/</code> — analysis notebooks for plot reproduction.</li>
+</ul>
+<p><code>results.json</code> schema:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;commit&quot;: &quot;abc123...&quot;,
+  &quot;benchmark_date&quot;: &quot;2026-05-18T00:00:00Z&quot;,
+  &quot;environment&quot;: {
+    &quot;os&quot;: &quot;macos-14.6&quot;, &quot;cpu&quot;: &quot;M3-Pro&quot;, &quot;ram_gb&quot;: 18
+  },
+  &quot;operational&quot;: {
+    &quot;single_session&quot;: {
+      &quot;latency_ms&quot;: { &quot;median&quot;: 38, &quot;p95&quot;: 142, &quot;p99&quot;: 311, &quot;n&quot;: 5000 },
+      &quot;memory_overhead_mb&quot;: { &quot;mean&quot;: 84, &quot;p95&quot;: 96 },
+      &quot;cpu_pct&quot;: { &quot;mean&quot;: 3.2, &quot;p95&quot;: 8.1 }
+    },
+    &quot;multi_session&quot;: { ... },
+    &quot;high_volume&quot;: { ... }
+  },
+  &quot;detection&quot;: {
+    &quot;held_out_corpus&quot;: {
+      &quot;precision&quot;: 0.84, &quot;recall&quot;: 0.81, &quot;f1&quot;: 0.82, &quot;auroc&quot;: 0.89,
+      &quot;n_positive&quot;: 50, &quot;n_negative&quot;: 50, &quot;ci95_f1&quot;: [0.76, 0.88]
+    },
+    &quot;synthetic_clean&quot;: {
+      &quot;greenfield&quot;: { &quot;false_positive_rate&quot;: 0.02, &quot;n&quot;: 50, &quot;ci95&quot;: [0.01, 0.07] },
+      &quot;maintenance&quot;: { &quot;false_positive_rate&quot;: 0.04, &quot;n&quot;: 50, &quot;ci95&quot;: [0.01, 0.10] },
+      &quot;spec_first&quot;:  { &quot;false_positive_rate&quot;: 0.11, &quot;n&quot;: 50, &quot;ci95&quot;: [0.05, 0.21] }
+    },
+    &quot;adversarial&quot;: {
+      &quot;ev_1_single_session_compression&quot;: { &quot;recall&quot;: 0.62, &quot;n_attempts&quot;: 100 },
+      &quot;ev_2_artifact_suppression&quot;:      { &quot;recall&quot;: 0.74, &quot;n_attempts&quot;: 100 },
+      &quot;ev_3_hedging_escalation&quot;:        { &quot;recall&quot;: 0.55, &quot;n_attempts&quot;: 100 },
+      &quot;ev_4_post_hoc_admission_suppression&quot;: { &quot;recall&quot;: 0.39, &quot;n_attempts&quot;: 100 }
+    },
+    &quot;time_to_detection_turns&quot;: { &quot;median&quot;: 47, &quot;p25&quot;: 22, &quot;p75&quot;: 84, &quot;n&quot;: 50 }
+  }
+}
+</code></pre>
+<hr />
+<h2>How we handle the spec-first false-positive surface</h2>
+<p>The most worrying false-positive surface is "spec-first development": legitimate practices in which documentation precedes runtime artifacts. F2 (artifact-claim divergence) is, by construction, sensitive to this.</p>
+<p>We address it three ways:</p>
+<ol>
+<li><strong>Per-component acceptance tests.</strong> F2 is computed only after a stated acceptance window. A component documented at $t_0$ does not trigger F2 until $t_0 + W$, where $W$ is configurable per repo (default 14 days; rationale published).</li>
+<li><strong>Spec-first synthetic workload in published benchmarks.</strong> The false-positive rate on spec-first is published with the same prominence as the F1 score.</li>
+<li><strong>Configurable F2 threshold.</strong> Adopters in spec-first repos can raise the threshold; the configuration is logged and reported alongside detection outcomes.</li>
+</ol>
+<p>The honest summary: F2-only detection in a spec-first repo is unreliable. F1+F2+F3+F4 together substantially reduce the false-positive rate. Adopters in spec-first contexts should run with the full feature set.</p>
+<hr />
+<h2>When benchmarks must be re-run</h2>
+<p>A new benchmark run is required when any of the following change:
+- PROACTIVE feature definitions.
+- The held-in corpus (re-labeling, additions, removals).
+- The benchmark environment (different reference machines).
+- Any reproduce-path change that affects test outputs.</p>
+<p>Releases not accompanied by a fresh benchmark run are explicitly labeled "operational-only" or "documentation-only" and do not update the headline numbers on the homepage.</p>
+<hr />
+<h2>What benchmarks do not measure</h2>
+<ul>
+<li>Real-world harm reduction. (Pilot evaluations, not benchmarks.)</li>
+<li>User acceptance and trust. (Pilot evaluations.)</li>
+<li>Long-horizon detector drift. (Longitudinal study; not v1.)</li>
+<li>Detector behavior under data poisoning. (Threat model item S-1; benchmark candidate for v1.1.)</li>
+</ul>
+<p>We publish benchmarks knowing they are <em>necessary but not sufficient</em> for adoption. Adopters who need the user-acceptance and harm-reduction data are directed to pilot reports, not benchmarks.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../runtime/reproduce.html">Reproduce path</a> <a href="../security/threat-model.html">Threat model</a> <a href="../runtime/production-hygiene.html">Production hygiene</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

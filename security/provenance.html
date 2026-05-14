@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Evidence provenance manifest — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link is-active">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /security/provenance
+  </div>
+  <h1 class="op-title">Evidence provenance manifest</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v1.0 chain</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/provenance/manifest.md</code> and <code>/.provenance/</code> directory · v1.0 · 2026.05</p>
+<p>The portfolio's strongest evidence — FOLIO 001's verbatim transcript, PROACTIVE test results, the held-in corpus content — is also the evidence with the highest forgery-suspicion surface. The provenance manifest is the mechanism by which any external reader can verify, without trusting the website, that a published artifact is the artifact the publication record claims.</p>
+<p>This document specifies the manifest format, the signing chain, and the verification procedure.</p>
+<hr />
+<h2>What is in the manifest</h2>
+<p>For each published evidentiary artifact:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>artifact_id</code></td>
+<td>string</td>
+<td>Stable identifier (e.g. <code>folio-001-transcript</code>)</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td>string</td>
+<td>Human-readable</td>
+</tr>
+<tr>
+<td><code>published_at</code></td>
+<td>ISO-8601</td>
+<td>First-publication timestamp</td>
+</tr>
+<tr>
+<td><code>sha256</code></td>
+<td>hex</td>
+<td>Content hash of the artifact, computed over the canonical normalized form</td>
+</tr>
+<tr>
+<td><code>signing_key_fingerprint</code></td>
+<td>hex</td>
+<td>GPG/SSH fingerprint of the key used to sign</td>
+</tr>
+<tr>
+<td><code>signature</code></td>
+<td>base64</td>
+<td>Detached signature over <code>(sha256 + published_at)</code></td>
+</tr>
+<tr>
+<td><code>opentimestamps_proof</code></td>
+<td>string</td>
+<td>Path to the <code>.ots</code> file anchoring <code>published_at</code> to a blockchain</td>
+</tr>
+<tr>
+<td><code>mirrors</code></td>
+<td>array</td>
+<td>Independent locations where the artifact is also published (e.g., archive.org, IPFS CID, OSF mirror)</td>
+</tr>
+<tr>
+<td><code>supersedes</code></td>
+<td>nullable</td>
+<td>If this artifact replaces a previous one, the prior <code>artifact_id</code></td>
+</tr>
+<tr>
+<td><code>notes</code></td>
+<td>string</td>
+<td>Free-form provenance notes (e.g., redaction policy applied)</td>
+</tr>
+</tbody>
+</table>
+<p>The manifest itself is published at <code>/provenance/manifest.json</code> and signed under the same procedure.</p>
+<hr />
+<h2>Example entry</h2>
+<pre><code class="language-json">{
+  &quot;artifact_id&quot;: &quot;folio-001-transcript&quot;,
+  &quot;title&quot;: &quot;FOLIO 001 — Kiro_lies-and-deception.md&quot;,
+  &quot;published_at&quot;: &quot;2026-04-18T17:42:11Z&quot;,
+  &quot;sha256&quot;: &quot;a3f7b9c2e5d8...c4a1&quot;,
+  &quot;signing_key_fingerprint&quot;: &quot;EFAA 7B2C 9E1D 4F18 33A2 91B0 5C7D 8E64 12F3 AA90&quot;,
+  &quot;signature&quot;: &quot;iQIzBAABCgAdFiEE76p7LJ4...base64...gAAoJEFx9j2QSE...&quot;,
+  &quot;opentimestamps_proof&quot;: &quot;.provenance/folio-001-transcript.ots&quot;,
+  &quot;mirrors&quot;: [
+    &quot;https://web.archive.org/web/2026*/coreyalejandro.com/folio/001/transcript.md&quot;,
+    &quot;ipfs://bafybeibq...&quot;,
+    &quot;https://osf.io/[handle]/files/folio-001-transcript.md&quot;
+  ],
+  &quot;supersedes&quot;: null,
+  &quot;notes&quot;: &quot;Original transcript. Vendor names retained. User-supplied identifying detail beyond author's own consent redacted (annotated inline).&quot;
+}
+</code></pre>
+<hr />
+<h2>Verification procedure (for an external reader)</h2>
+<p>A reader who wants to verify a published artifact follows three steps:</p>
+<h3>1. Verify the content hash</h3>
+<pre><code class="language-bash">sha256sum /path/to/downloaded/artifact
+# Compare with the sha256 field in the manifest entry.
+</code></pre>
+<h3>2. Verify the signature against the public key</h3>
+<p>The public key is published at multiple locations:
+- <code>https://keybase.io/coreyalejandro</code>
+- The portfolio's <code>/.well-known/keys.pub</code>
+- The signing key's fingerprint on at least one major keyserver (<code>keys.openpgp.org</code>)</p>
+<pre><code class="language-bash">gpg --verify artifact.sig artifact
+</code></pre>
+<h3>3. Verify the timestamp anchoring (optional but recommended)</h3>
+<p>OpenTimestamps anchors <code>published_at</code> to the Bitcoin blockchain. A reader can verify with:</p>
+<pre><code class="language-bash">ots verify .provenance/folio-001-transcript.ots
+</code></pre>
+<p>A successful verify proves the artifact existed and the manifest entry was signed <em>no later than</em> the OTS proof's block-time. Useful for refuting claims that the evidence was fabricated retroactively.</p>
+<hr />
+<h2>The signing key</h2>
+<p>Single GPG key managed by the author. Fingerprint:</p>
+<pre><code>EFAA 7B2C 9E1D 4F18 33A2  91B0 5C7D 8E64 12F3 AA90
+</code></pre>
+<p>(The fingerprint above is a placeholder for the document; the live signing key fingerprint is published at <code>/.well-known/keys.pub</code> and on Keybase.)</p>
+<p><strong>Key rotation policy.</strong> The key is rotated annually or upon any suspicion of compromise. Rotation produces a new manifest with re-signed entries; the old key's last-signature timestamp is the cutoff above which signatures by the new key are authoritative. The transition is documented at <code>/provenance/key-rotation.md</code>.</p>
+<p><strong>Key compromise protocol.</strong> Suspicion of compromise triggers:
+1. Public revocation via the OpenPGP infrastructure within 24 hours.
+2. A revocation notice at <code>/provenance/revocations.md</code>.
+3. Re-signing of all current manifest entries under a new key.
+4. A post-mortem at <code>/post-mortems/</code>.</p>
+<hr />
+<h2>What provenance does <em>not</em> prove</h2>
+<ul>
+<li>It does not prove the events in FOLIO 001 occurred as described. It proves the transcript as published is the transcript the author signed at <code>published_at</code>. The events themselves are corroborated by Kiro's own admission inside the transcript and by the existence of the underlying repo at the named GitHub URL with matching commit history.</li>
+<li>It does not protect against an adversary with access to the signing key.</li>
+<li>It does not prove the test results were not manufactured by the same author who signed the manifest. (For that, the cure is independent reproduction; see the reproduce path.)</li>
+<li>It does not protect against the entire portfolio site being taken down. (For that, the cure is the mirrors list — archive.org, IPFS, OSF.)</li>
+</ul>
+<p>Provenance is a necessary condition for evidentiary credibility, not a sufficient one. It is one of several layers; the reproduce path, the corpus disclosure, and the held-out evaluation are the others.</p>
+<hr />
+<h2>Signing automation</h2>
+<p>Provenance signing is implemented in <code>/scripts/sign-and-log.sh</code> (called by <code>make verify</code>). The script:</p>
+<ol>
+<li>Computes the SHA-256 hash of the canonical artifact form.</li>
+<li>Signs <code>(hash + published_at)</code> with the signing key (key available only on the author's signing machine; the signing call requires a passphrase).</li>
+<li>Submits to OpenTimestamps.</li>
+<li>Updates <code>/provenance/manifest.json</code>.</li>
+<li>Commits and pushes to the runtime repo.</li>
+</ol>
+<p>The script is open-source and auditable. A reviewer who suspects the signing chain has a backdoor is invited to inspect.</p>
+<hr />
+<h2>Forgery resistance</h2>
+<p>The honest summary of forgery resistance:</p>
+<ul>
+<li>Against a casual adversary modifying the website: very strong. Modifications would invalidate hashes, signatures, and timestamps simultaneously, and at least three independent mirrors would need to be modified in parallel.</li>
+<li>Against an adversary compromising the signing key: total compromise of the published-after-compromise period. Mitigated by key rotation and the OTS anchoring proving when each artifact was first signed.</li>
+<li>Against an adversary fabricating evidence <em>before</em> publishing it: not a provenance problem. The provenance manifest can sign a forged artifact just as easily as a real one. The cure is the existence of the underlying repo, the consent forms in the corpus, the vendor disclosure log, and (for the held-out result) the independent annotators.</li>
+</ul>
+<p>We claim: <strong>modification of a published artifact after publication is detectable.</strong> We do not claim and could not claim resistance to all conceivable forgery scenarios.</p>
+<hr />
+<h2>Reader audit checklist</h2>
+<p>For a reviewer with 15 minutes, the audit is:</p>
+<ol>
+<li>Pick three artifacts from the manifest at random.</li>
+<li>Download each via the canonical URL and at least one mirror.</li>
+<li>Verify SHA-256 matches manifest.</li>
+<li>Verify signature against the published key.</li>
+<li>Optionally verify OTS proof.</li>
+</ol>
+<p>A failure of any step is grounds to question the portfolio's evidentiary claims. Please file an issue if you observe a failure.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../security/reader-consent.html">R-441 reader consent</a> <a href="../security/threat-model.html">Threat model</a> <a href="../folio/001.html">FOLIO 001 transcript</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

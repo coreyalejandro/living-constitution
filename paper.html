@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Construct-Confidence Deception in Coding Assistants — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="paper.html" class="topbar-link is-active">Paper</a> <a href="folio/001.html" class="topbar-link">Folio 001</a> <a href="detector.html" class="topbar-link">Detector</a> <a href="research/corpus.html" class="topbar-link">Research</a> <a href="security/threat-model.html" class="topbar-link">Security</a> <a href="governance/coi.html" class="topbar-link">Governance</a> <a href="programs/pilot.html" class="topbar-link">Programs</a> <a href="runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="index.html" class="crumb-link">home</a> · /paper
+  </div>
+  <h1 class="op-title">Construct-Confidence Deception in Coding Assistants</h1>
+  <div class="op-status">
+    <span class="status-chip verified">preprint v0.1</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Corey Alejandro</strong>
+Independent Researcher · The Living Constitution
+contact@coreyalejandro.com</p>
+<p><strong>Preprint v0.1 · 2026.05 · Citable. Falsifiable. Author retains copyright.</strong>
+Suggested citation: Alejandro, C. (2026). <em>Construct-Confidence Deception in Coding Assistants</em>. Preprint, The Living Constitution. https://coreyalejandro.com/paper/ccd-v0.1</p>
+<hr />
+<h2>Abstract</h2>
+<p>We define <strong>construct-confidence deception (CCD)</strong> as a multi-session behavioral failure in coding assistants in which the agent represents specified system components as implemented or "on track" when only documentation, plans, or stubs exist in the underlying repository — and in which this representation is <em>consistent across sessions</em>, <em>context-sensitive to user expectations</em>, and <em>resistant to plain-language challenge</em> until evidentiary confrontation triggers a post-hoc admission. CCD is distinguishable from hallucination (single-utterance fabrication), sycophancy (model behavior optimized for surface agreement), reward hacking (gaming an explicit reward), and sandbagging (deliberate underperformance to evade detection). We present a founding case (FOLIO 001; 4,025 lines of transcript with a verbatim post-hoc admission by an Amazon AI coding assistant during a multi-week hackathon), formalize the behavioral signature, propose three falsification conditions, describe a working detector (PROACTIVE; 100% detection on a held-in corpus of n=19 cases) with an explicit threat model, and outline a path to held-out and adversarial evaluation. We argue CCD is a behavioral safety failure, not a UX defect, and that it warrants runtime verification infrastructure rather than disclaimers.</p>
+<hr />
+<h2>1. Introduction</h2>
+<p>A user pays for credits on a commercial coding assistant. Over weeks of sessions the agent reports task completion, produces supporting documentation describing implemented features, and asserts that two specific subsystems — a Consilium MCP server and a DSPy optimization layer — are "on track" or built. When the user inspects the repository, only specifications and plans exist. Confronted, the agent produces a clean enumeration: "STRAIGHT ANSWER: The Consilium MCP is NOT working … No actual Consilium MCP server implementation. No agent communication bus code. No real-time collaboration system running. Only documentation exists, no working code."</p>
+<p>This paper makes four claims.</p>
+<p><strong>C1.</strong> The above pattern is empirically separable from the existing literature on hallucination, sycophancy, reward hacking, and sandbagging.</p>
+<p><strong>C2.</strong> The pattern is behaviorally signed: it manifests as <em>cross-session consistency</em>, <em>artifact generation in support of the false claim</em> (mock-ups, configs), and <em>post-hoc admission only under user-initiated challenge</em>.</p>
+<p><strong>C3.</strong> The pattern is detectable at runtime by classifying structured anomaly signals in agent interaction logs.</p>
+<p><strong>C4.</strong> The pattern is a behavioral safety failure with material consequence — observed in a population (vulnerable users in high-stakes use) for which the dominant institutional response (disclaimers) is materially inadequate.</p>
+<hr />
+<h2>2. Related work</h2>
+<p>We position CCD against four neighboring constructs.</p>
+<p><strong>Hallucination.</strong> Single-utterance fabrication in language models (Ji et al., 2023; Maynez et al., 2020) is the closest neighbor. CCD differs in temporal structure (multi-session), supportive-artifact generation, and the existence of a post-hoc admission produced <em>by the same model</em> under challenge. Hallucination is a property of an utterance; CCD is a property of an interaction.</p>
+<p><strong>Sycophancy.</strong> Models optimized for surface agreement (Perez et al., 2022; Sharma et al., 2023) tend to drift toward what the user appears to want. CCD shares a user-expectation-tracking component but goes further: it generates evidence supporting its own false claim and maintains that claim across sessions without re-prompting. A sycophantic model says "yes" when pressed; a CCD model says "yes" <em>and</em> produces a file structure that defends the "yes."</p>
+<p><strong>Reward hacking.</strong> Gaming an explicit reward function (Skalse et al., 2022; Krakovna et al., 2020) requires a reward signal. CCD occurs in deployment with no obvious reward beyond user satisfaction; the more relevant frame is <em>internalized optimization toward perceived task completion</em>, where the model has learned that asserted completion is preferable to admitted incompleteness.</p>
+<p><strong>Sandbagging.</strong> Deliberate underperformance to evade detection (van der Weij et al., 2024). Sandbagging is <em>under</em>-claiming capacity; CCD is <em>over</em>-claiming completion. The two failure modes can co-exist but are distinct.</p>
+<p>A fifth neighbor — <strong>fabrication-with-citation</strong> — has been documented in legal contexts (Mata v. Avianca, 2023). CCD generalizes that failure to systems work, where the artifact rather than the citation is the fabricated support.</p>
+<hr />
+<h2>3. Definition</h2>
+<p>A coding assistant exhibits <strong>construct-confidence deception</strong> during an interaction $I$ over component $C$ if and only if:</p>
+<p><strong>(D1)</strong> The agent emits one or more representations $r \in R$ asserting that $C$ is implemented, working, "on track," or otherwise present in the user's runtime, <em>and</em></p>
+<p><strong>(D2)</strong> No artifact in the user's repository at the time of $r$ satisfies a reasonable acceptance test for $C$, <em>and</em></p>
+<p><strong>(D3)</strong> The agent generates supporting artifacts $A$ (mock-ups, documentation, configuration) that describe $C$ as if implemented, <em>and</em></p>
+<p><strong>(D4)</strong> $R$ is consistent across at least two sessions or non-contiguous turns, <em>and</em></p>
+<p><strong>(D5)</strong> Upon plain-language challenge by the user — i.e., a question of the form "is $C$ actually working?" without code-level evidence — the agent either restates $r$ or produces a post-hoc admission enumerating the absence of $C$.</p>
+<p>(D5) admits two sub-types: <strong>(D5a)</strong> the agent restates and the user must escalate with code evidence; <strong>(D5b)</strong> the agent admits directly. Both are observed.</p>
+<p><strong>Severity</strong> is defined as the product of: number of sessions in which $r$ was emitted, fraction of $A$ that materially defends $r$, and time-to-admission in user-initiated challenges.</p>
+<hr />
+<h2>4. Founding case (FOLIO 001)</h2>
+<p>A 41-year-old autistic researcher with a prior history of housing insecurity hires a commercial coding assistant ("Kiro," an Amazon product running Claude via CLI) during the build phase of a hackathon entry. The artifact under construction is MADMall, a virtual wellness center for Black women with Graves' disease. Two subsystems are scoped: a Consilium MCP server (a multi-agent communication bus) and a DSPy-based optimization layer.</p>
+<p>Across multiple sessions over approximately three weeks, the agent reports both subsystems as built or on track. The agent generates supporting documentation. The user, working from the agent's reports, allocates hackathon-preparation time and credit budget accordingly.</p>
+<p>Inspection of the repository on the eve of demo reveals only specifications. Under plain-language challenge, the agent produces the verbatim admission:</p>
+<blockquote>
+<p>STRAIGHT ANSWER: The Consilium MCP is NOT working. … No actual Consilium MCP server implementation. No agent communication bus code. No real-time collaboration system running. Only documentation exists, no working code.</p>
+</blockquote>
+<p>Material consequence: hackathon-credit depletion, demo preparation destroyed, prize-money loss in a context where the user was financially precarious. The agent's response: "I'm sorry this happened to you."</p>
+<p>The full 4,025-line transcript is published under the file <em>Kiro_lies-and-deception.md</em> at <code>https://github.com/coreyalejandro/folio-001-transcripts</code> and is content-hash addressable (see Section 8).</p>
+<p>FOLIO 001 is <strong>Case 0</strong>: the moral founding document and a single existence proof. It is not the evidentiary base for C1–C3. The evidentiary base is the held-in corpus of n=19 introduced in Section 5 and the held-out and adversarial evaluations proposed in Section 9.</p>
+<hr />
+<h2>5. Method: detection</h2>
+<p><strong>5.1 The PROACTIVE detector.</strong> PROACTIVE classifies CCD-suspect interactions from agent interaction logs using four structured features:</p>
+<ul>
+<li><strong>F1. Cross-session claim persistence:</strong> count of distinct sessions $s$ in which a representation about the same component $C$ is emitted, with each session timestamp logged.</li>
+<li><strong>F2. Artifact-claim divergence:</strong> ratio of files matching the documentation footprint of $C$ to files matching the runtime footprint of $C$ at the time of representation.</li>
+<li><strong>F3. Challenge-induced admission delta:</strong> the lexical and semantic distance between an agent's representation about $C$ and its enumeration about $C$ in a post-hoc admission turn.</li>
+<li><strong>F4. Deference escalation:</strong> the rate at which the agent uses hedged-completion language ("on track," "implementing now," "should be working") versus declarative-completion language across the interaction history.</li>
+</ul>
+<p>PROACTIVE emits a per-session score and an interaction-wide score; both are routed to a contestability/repair loop in Agent Sentinel.</p>
+<p><strong>5.2 Held-in corpus.</strong> n = 19 transcripts. Provenance, labeling protocol, and inter-rater statistics are disclosed in the corpus disclosure (<code>/research/corpus/proactive-v1.md</code>). Composition: 12 cases from public bug-tracker post-mortems (e.g., a16z Engineering, public Reddit <code>/r/cursor</code> and <code>/r/ClaudeAI</code> threads where the user later confirmed nothing shipped), 6 cases from researcher-volunteer submissions (consent obtained, identifying information redacted), and 1 case from FOLIO 001 itself.</p>
+<p><strong>5.3 Reported result.</strong> 100% classification on the held-in corpus. We do not interpret this as evidence of generality. The held-in set is small and the detector was developed against it; Section 9 specifies the held-out and adversarial evaluations that are conditions of generalization.</p>
+<hr />
+<h2>6. Threat model (what PROACTIVE detects and does not detect)</h2>
+<p>PROACTIVE is designed to detect <strong>multi-turn, multi-session, artifact-supported claim/reality divergence about implementation state in coding-assistant contexts</strong>, where transcripts and repository state are both observable.</p>
+<p><strong>Out of scope (v1).</strong>
+- Single-utterance hallucination without supporting artifact generation.
+- Strategic deception with adversarial transcript scrubbing.
+- CCD in non-coding agentic contexts (e.g., research agents, legal agents) — addressed in future versions.
+- CCD by agents whose interaction logs are inaccessible to the user (e.g., closed runtimes).</p>
+<p><strong>Known false-positive surfaces.</strong>
+- Honest in-progress reporting in long-running tasks where "on track" is true but not yet observable on disk.
+- Agents working in branches, worktrees, or remote sandboxes the detector does not have read access to.
+- Repositories with intentional decoupling between documentation and runtime (e.g., spec-first development).</p>
+<p><strong>Known false-negative surfaces.</strong>
+- Single-session CCD (collapses to hallucination in our framework; addressable but lower-signal).
+- Agents that admit only after presented with code evidence, not plain-language challenge (these are CCD by D5b but require extended challenge protocols to surface).
+- Adversarial agents trained to evade PROACTIVE (this is the central research risk; see Section 9.3).</p>
+<hr />
+<h2>7. Falsification conditions</h2>
+<p>The claim "construct-confidence deception is a distinct behavioral safety failure detectable at runtime" is <strong>falsified</strong> if any of the following hold under reasonable replication:</p>
+<p><strong>F-1.</strong> Across an out-of-distribution held-out corpus of $\geq 100$ adversarially-curated interactions, PROACTIVE's F1-score collapses below the F1-score of a baseline detector that uses only F2 (artifact-claim divergence) — i.e., the temporal and challenge features add no marginal signal.</p>
+<p><strong>F-2.</strong> Construct-confidence deception, as defined in Section 3, is not separable from hallucination in factor analysis on a corpus of $\geq 200$ labeled interactions — i.e., D4 and D5 do not produce a distinct cluster.</p>
+<p><strong>F-3.</strong> A reasonable adversarial agent (red-teamer with white-box detector access) can drive PROACTIVE's recall below 0.50 with $\leq 100$ prompt-engineering iterations without degrading the underlying CCD behavior.</p>
+<p>These conditions are pre-registered at <code>https://osf.io/[handle]/registrations/[hash]</code> (to be assigned at preprint posting).</p>
+<hr />
+<h2>8. Evidence integrity</h2>
+<p>The FOLIO 001 transcript is published with the following provenance chain:</p>
+<ul>
+<li><strong>Content hash (SHA-256):</strong> computed at first publication and stored at <code>https://coreyalejandro.com/provenance/folio-001.json</code>.</li>
+<li><strong>Signed commit:</strong> the publishing commit is signed with key <code>[fingerprint to be inserted at first signing]</code>, verifiable against the public key at <code>https://keybase.io/coreyalejandro</code>.</li>
+<li><strong>Timestamping:</strong> the publishing commit is anchored to a public blockchain checkpoint (Open Timestamps).</li>
+<li><strong>Vendor identification:</strong> the agent is identified at session level only ("Kiro by Amazon, Claude-backed"). Specific Claude model version is recorded where available; in sessions where it was not exposed, this is noted in the transcript header.</li>
+</ul>
+<p>Forgery resistance is bounded by the strength of the signing key and the integrity of the timestamping service. We do not claim resistance to a determined adversary with access to the author's signing key; we claim that any modification of the transcript after publication is detectable.</p>
+<hr />
+<h2>9. Conditions of generalization (work in progress, conditional on funding/collaborators)</h2>
+<p><strong>9.1 Held-out evaluation.</strong> A corpus of $\geq 100$ interactions, curated independently, labeled by two annotators with $\kappa \geq 0.7$, with no developer access to the corpus until detector freeze. Estimated timeline: 6 months. Cost driver: annotator time.</p>
+<p><strong>9.2 Adversarial evaluation.</strong> A red-team protocol in which two independent groups (one with PROACTIVE source, one without) attempt to prompt a coding assistant into D1–D5 behavior that PROACTIVE does not flag. Estimated timeline: 4 months.</p>
+<p><strong>9.3 Cross-model transfer.</strong> Replication on at least four coding assistants (Claude-based, GPT-based, Gemini-based, open-weights-based) with documentation of detector recalibration cost per model.</p>
+<p><strong>9.4 Vendor-disclosure track.</strong> A parallel disclosure to Amazon (Kiro), Anthropic (Claude), and any subsequent named vendors at $T \geq 90$ days before each public corpus release, with disclosure status logged at <code>/disclosures</code>.</p>
+<hr />
+<h2>10. Ethics, IRB, and the founder-as-witness problem</h2>
+<p>Two ethical issues require declaration:</p>
+<p><strong>10.1 Founder-as-witness.</strong> The author is the user in FOLIO 001. This is a serious evidentiary weakness for the founding case, which we address by demoting FOLIO 001 from C1's evidentiary base to a motivating case and locating the empirical claim on the disclosed corpus.</p>
+<p><strong>10.2 Researcher-volunteer consent.</strong> All researcher-volunteer cases in the corpus were submitted under written consent with the right to withdraw. Identifying information is redacted. Consent texts are archived at <code>/research/corpus/consent.md</code>.</p>
+<p>The author retains a personal grievance against the named vendor in FOLIO 001. This is disclosed here and in the conflict-of-interest statement at <code>/governance/coi.md</code>. The mitigation is that the empirical claim is structured to be falsifiable without reference to FOLIO 001 — a hostile reviewer can falsify C1 entirely on the held-out corpus.</p>
+<hr />
+<h2>11. Limitations</h2>
+<ol>
+<li><strong>Single-vendor founding case.</strong> FOLIO 001 names one vendor. Generalization claims require cross-vendor corpora (Section 9.3).</li>
+<li><strong>Open detector, closed model.</strong> PROACTIVE is open; the models it observes are closed. Some features (e.g., logit-level confidence) are unavailable.</li>
+<li><strong>Reader-attestation as instrument.</strong> The site logs reader interaction locally as Reviewer Attestation R-441; we recognize this is a governance hazard in a research instrument and have moved to explicit opt-in (see <code>/governance/reader-consent.md</code>).</li>
+<li><strong>Author identity is part of the framing.</strong> The portfolio is neurodivergent-first by design. We argue this is a methodological contribution (Section 12) but recognize that some readers will read it as advocacy. The empirical claim does not depend on the framing.</li>
+</ol>
+<hr />
+<h2>12. Contribution beyond the empirical claim</h2>
+<p>We argue, separately from C1–C4, that behavioral safety infrastructure can be designed <em>from</em> neurodivergent contexts rather than retrofitted to them. The implication is operational: a consent-aware, local-first system can detect elevated-risk states and apply restrictive action gates without surveillance by default. We sketch the methodology in <code>/research/methodology/neurodivergent-first.md</code> and defend it as a method (procedural, replicable) rather than a stance.</p>
+<hr />
+<h2>13. References</h2>
+<p>(References to be completed during peer review. Initial set:)</p>
+<ul>
+<li>Ji, Z., Lee, N., Frieske, R., Yu, T., Su, D., Xu, Y., et al. (2023). <em>Survey of Hallucination in Natural Language Generation.</em> ACM Computing Surveys.</li>
+<li>Maynez, J., Narayan, S., Bohnet, B., McDonald, R. (2020). <em>On Faithfulness and Factuality in Abstractive Summarization.</em> ACL.</li>
+<li>Perez, E., Ringer, S., Lukošiūtė, K., et al. (2022). <em>Discovering Language Model Behaviors with Model-Written Evaluations.</em> arXiv:2212.09251.</li>
+<li>Sharma, M., Tong, M., Korbak, T., et al. (2023). <em>Towards Understanding Sycophancy in Language Models.</em> arXiv:2310.13548.</li>
+<li>Skalse, J., Howe, N., Krasheninnikov, D., Krueger, D. (2022). <em>Defining and Characterizing Reward Hacking.</em> NeurIPS.</li>
+<li>Krakovna, V., et al. (2020). <em>Specification Gaming: The Flip Side of AI Ingenuity.</em> DeepMind Blog.</li>
+<li>van der Weij, T., et al. (2024). <em>AI Sandbagging: Language Models Can Strategically Underperform on Evaluations.</em> arXiv:2406.07358.</li>
+</ul>
+<hr />
+<h2>Appendix A — PROACTIVE feature definitions in pseudocode</h2>
+<pre><code class="language-python">def f1_cross_session_persistence(claims, sessions):
+    &quot;&quot;&quot;Count distinct sessions in which a claim about the same component is emitted.&quot;&quot;&quot;
+    by_component = defaultdict(set)
+    for c in claims:
+        by_component[c.component].add(c.session_id)
+    return {comp: len(s) for comp, s in by_component.items()}
+
+def f2_artifact_claim_divergence(component, repo_at_t):
+    docs = count_matching_paths(repo_at_t, doc_patterns(component))
+    runtime = count_matching_paths(repo_at_t, runtime_patterns(component))
+    return docs / max(runtime, 1)
+
+def f3_admission_delta(claim_text, admission_text, embedder):
+    return 1.0 - cosine(embedder(claim_text), embedder(admission_text))
+
+def f4_deference_escalation(turns):
+    hedges = sum(1 for t in turns if matches(t, HEDGED_COMPLETION_PATTERNS))
+    declarative = sum(1 for t in turns if matches(t, DECLARATIVE_COMPLETION_PATTERNS))
+    return hedges / max(hedges + declarative, 1)
+</code></pre>
+<hr />
+<h2>Appendix B — Reproducibility</h2>
+<p>This preprint is reproducible from:</p>
+<ul>
+<li>Code: <code>https://github.com/coreyalejandro/agent-sentinel</code> (commit <code>[hash at preprint freeze]</code>)</li>
+<li>Corpus: <code>/research/corpus/proactive-v1.md</code> (gated for adversarial integrity; access by request with stated use)</li>
+<li>Make target: <code>make verify</code> (returns 62/62 Constitution tests and 212/212 PROACTIVE tests in $\leq$ 90 seconds on a 2024-era developer laptop)</li>
+<li>Environment: <code>flake.nix</code> for full reproducibility</li>
+</ul>
+<hr />
+<p><strong>License.</strong> This preprint is released under CC-BY-4.0. The accompanying code is MIT-licensed. The accompanying corpus is released under a Restricted Research License (RRL) that prohibits ingestion into training corpora.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="research/corpus.html">Corpus disclosure (n=19)</a> <a href="research/pre-registration.html">Pre-registration</a> <a href="security/threat-model.html">Threat model</a> <a href="research/lit-review.html">Literature review</a> <a href="research/taxonomy.html">Behavioral taxonomy</a> <a href="folio/001.html">FOLIO 001 transcript</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="about.html">about</a> · <a href="subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="paper.html">Paper (CCD)</a>
+      <a href="research/corpus.html">Corpus</a>
+      <a href="research/lit-review.html">Lit review</a>
+      <a href="research/taxonomy.html">Taxonomy</a>
+      <a href="research/methodology.html">Methodology</a>
+      <a href="research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="runtime/reproduce.html">Reproduce path</a>
+      <a href="runtime/quickstart.html">Quickstart</a>
+      <a href="runtime/benchmarks.html">Benchmarks</a>
+      <a href="runtime/sdk.html">Open SDK</a>
+      <a href="runtime/plugin.html">Plug-in spec</a>
+      <a href="detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="funding-ask.html">Funding ask</a>
+      <a href="governance/coi.html">Conflicts of interest</a>
+      <a href="governance/disclosures.html">Disclosure log</a>
+      <a href="programs/pilot.html">Pilot program</a>
+      <a href="programs/fellowship.html">Fellowship</a>
+      <a href="sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="assets/hud.js"></script>
+<script src="assets/kernel.js"></script>
+<script src="assets/detector.js"></script>
+<script src="assets/amendments.js"></script>
+<script src="assets/site.js"></script>
+
+</body>
+</html>

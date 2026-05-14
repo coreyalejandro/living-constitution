@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reviewer Objections, Addressed — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="paper.html" class="topbar-link">Paper</a> <a href="folio/001.html" class="topbar-link">Folio 001</a> <a href="detector.html" class="topbar-link">Detector</a> <a href="research/corpus.html" class="topbar-link">Research</a> <a href="security/threat-model.html" class="topbar-link">Security</a> <a href="governance/coi.html" class="topbar-link">Governance</a> <a href="programs/pilot.html" class="topbar-link">Programs</a> <a href="runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="index.html" class="crumb-link">home</a> · /objections
+  </div>
+  <h1 class="op-title">Reviewer Objections, Addressed</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v1.0 · 10 receipts</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/objections.md</code> · v1.0 · 2026.05</p>
+<p>The homepage of <em>coreyalejandro.com</em> contains a section that begins:</p>
+<blockquote>
+<p>Below are the objections I expect from people whose job it is to keep this field small, and the answers I will give, in plain language, with receipts.</p>
+</blockquote>
+<p>That section is currently a gesture. This is the receipts.</p>
+<p>Each objection is reproduced as it would actually be filed by a serious reviewer. The response cites the artifact, not the polemic. The polemic lives on the homepage; this page is where the work shows up.</p>
+<hr />
+<h2>Objection 1 — "This is performance art, not science."</h2>
+<p><strong>The reviewer's full form.</strong> The site uses an elaborate Constitutional metaphor, typographic flourishes, and a confessional founding incident as a substitute for an empirical contribution. A serious AI safety paper would not be embedded in a stylized portfolio site.</p>
+<p><strong>The receipt.</strong> The empirical contribution is the preprint at <code>/paper/ccd-v0.1.pdf</code>. It contains: a definition (Section 3), a method (Section 5), a held-in result (Section 5), three pre-registered falsification conditions (Section 7), a threat model (Section 6), and a corpus disclosure (Section 5.2 with full appendix at <code>/research/corpus/proactive-v1.md</code>). The Constitutional metaphor is editorial framing on the portfolio. The paper is a paper. Read it.</p>
+<p><strong>The honest concession.</strong> If the reviewer reads only the homepage and concludes "performance art," that is the reviewer's responsibility, but it is also a UX failure on our side. The site now has a <code>/paper/</code> route that opens with the abstract and the falsification conditions, not the Constitution metaphor. That route is one click from the homepage. The reviewer who wants the science can find the science.</p>
+<hr />
+<h2>Objection 2 — "n=19 is not a corpus."</h2>
+<p><strong>The reviewer's full form.</strong> A behavioral-safety claim based on 19 hand-curated cases, with one of those cases being the author's own incident, does not constitute evidence. 100% detection on n=19 is a developer overfitting to their development set.</p>
+<p><strong>The receipt.</strong> Three pieces:</p>
+<ol>
+<li>The preprint reports the result twice: with n=19 (FOLIO 001 included) and with n=18 (FOLIO 001 excluded). Result holds in both.</li>
+<li>The preprint pre-registers F-1 (held-out F1 score), F-2 (cluster separability on n≥200), and F-3 (adversarial recall). These are the structural validations. We agree the n=19 result is not the headline; the <em>definition</em> and the <em>falsifiability</em> are the headlines.</li>
+<li>The held-out corpus plan (Section 9.1 of the preprint) specifies $\geq 100$ adversarially-curated cases with developer-blinded evaluation. This is the structural remedy for the n=19 critique. It is on the roadmap with a budget and a timeline.</li>
+</ol>
+<p><strong>The honest concession.</strong> The reviewer is correct that n=19 is not a corpus. We have never claimed it is. We have claimed that n=19 is a developer-grade demonstration that justifies the held-out evaluation. The held-out evaluation is the real validation. The corpus disclosure makes this distinction explicit.</p>
+<hr />
+<h2>Objection 3 — "CCD is just hallucination plus persistence."</h2>
+<p><strong>The reviewer's full form.</strong> Construct-confidence deception is not a novel construct. It is the existing hallucination literature, extended trivially to multi-session interactions. The framing is rhetorical.</p>
+<p><strong>The receipt.</strong> The literature review at <code>/research/lit-review.md</code> (Section 1 and Section 7 in particular) addresses this directly. Three empirically separable predictions distinguish CCD from hallucination:</p>
+<ol>
+<li>Single-utterance hallucination detectors (SelfCheckGPT, FActScore-style) will fail to flag CCD claims at materially higher rates than they fail to flag matched-control utterances.</li>
+<li>The post-hoc admission (D5) exhibits structure not present in hallucination corpora.</li>
+<li>Cross-session persistence (D4) and supportive-artifact generation (D3) correlate in CCD cases ($\rho &gt; 0.5$) and do not in matched hallucination controls ($\rho &lt; 0.2$).</li>
+</ol>
+<p>If these predictions fail on a held-out corpus of $\geq 200$ cases, the "distinct construct" framing is falsified. The preprint commits to that falsifier (F-2).</p>
+<p><strong>The honest concession.</strong> A motivated reviewer can argue CCD is "hallucination + persistence + artifacts," and that the qualitative cut between "hallucination scaled up" and "distinct construct" is a judgment call. This is a real reading. We argue the qualitative cut is justified by the post-hoc admission and the cross-session policy-conditionality. Reasonable disagreement is welcome and will be cited.</p>
+<hr />
+<h2>Objection 4 — "The author is the victim in the founding case. This is not science, it is grievance."</h2>
+<p><strong>The reviewer's full form.</strong> FOLIO 001 has the author as the user, the witness, the analyst, and the publisher. There is no independent perspective on the events. This is a single-author case study presented as evidence.</p>
+<p><strong>The receipt.</strong> Four pieces:</p>
+<ol>
+<li>The preprint explicitly demotes FOLIO 001 from the evidentiary base to a motivating case (preprint Section 4, last paragraph). FOLIO 001 is Case 0, not Case 1.</li>
+<li>The empirical claim is structured to be falsifiable <em>without reference to FOLIO 001</em>. A hostile reviewer can falsify the claim entirely on the held-out corpus.</li>
+<li>The conflict-of-interest statement at <code>/governance/coi.md</code> discloses the author's grievance against the named vendor. Mitigation: the falsifier in F-1 is on a corpus the author does not curate.</li>
+<li>The FOLIO 001 transcript is content-hash-addressable and signed (<code>/provenance/folio-001.json</code>). The events as reported are at minimum verifiable as having occurred as transcribed.</li>
+</ol>
+<p><strong>The honest concession.</strong> A founder-as-witness case is, structurally, the weakest possible evidentiary position. The remedy is to make the empirical claim independent of the witness, which the preprint does. The remedy is not to pretend the witness is unbiased.</p>
+<hr />
+<h2>Objection 5 — "Naming Amazon and Anthropic is legally reckless and undermines the science."</h2>
+<p><strong>The reviewer's full form.</strong> The portfolio names specific commercial parties as having committed "intentional fraud." This invites litigation, alienates the labs whose collaboration the work most needs, and contaminates the empirical paper with libel exposure.</p>
+<p><strong>The receipt.</strong> Three pieces:</p>
+<ol>
+<li>The preprint does not use the words "intentional fraud." It uses "construct-confidence deception" operationally defined by D1–D5 with no claim about intent (preprint Section 3 explicitly: "we do not need a theory of intent to define the behavior").</li>
+<li>The vendor identification in FOLIO 001 is factual ("Kiro, an Amazon AI coding assistant, Claude-backed") and is supported by the content-hash-addressable transcript. Factual statements supported by published evidence are not libel under any reasonable reading of US defamation law.</li>
+<li>The responsible disclosure log at <code>/disclosures.md</code> records the date of first contact with Amazon (about Kiro) and Anthropic (about Claude). Both parties were notified $T \geq 30$ days before public posting. Their responses are logged.</li>
+</ol>
+<p><strong>The honest concession.</strong> The polemical register on the homepage ("the guild," "intentional fraud") <em>is</em> rhetorically aggressive and is the author's editorial choice. That register is not in the paper. A reviewer who confuses the homepage with the paper is making a category error, but the site is partly responsible for inviting that error. The <code>/paper/</code> route exists in part for this reason.</p>
+<hr />
+<h2>Objection 6 — "The Reviewer Attestation R-441 is surveillance dressed as theory."</h2>
+<p><strong>The reviewer's full form.</strong> The site logs the reader's interactions (focal length, spectrum dial, aperture, links followed) into a "reviewer attestation R-441." Framing it as the same posture the portfolio takes toward its own claims is rhetorically clever and operationally a surveillance system installed on visitors without their consent.</p>
+<p><strong>The receipt.</strong> The current implementation is local-session-only (no data leaves the visitor's browser; no transmission). This is documented at <code>/governance/reader-consent.md</code>. The reader-consent statement also commits to:</p>
+<ol>
+<li>An explicit opt-in toggle at first interaction, with the default set to off.</li>
+<li>A visible session-state indicator showing whether R-441 is logging.</li>
+<li>A "purge attestation" control that clears the local state.</li>
+<li>A published data-handling statement specifying that no data is transmitted, retained beyond the session, or shared.</li>
+</ol>
+<p><strong>The honest concession.</strong> Even if local-session-only, the original implementation surveilled by default. The remedy is opt-in. That remedy is in the v1.1 release and is documented; if the visitor encounters R-441 before v1.1 ships, they are advised to assume the default behavior is logging-during-session-only-with-no-transmission and to use the purge control if uncomfortable.</p>
+<hr />
+<h2>Objection 7 — "The repos are not typography." How do I verify?</h2>
+<p><strong>The reviewer's full form.</strong> The portfolio asserts "the repos are not typography" and reports 62/62 tests passing, 212/212 tests passing, 1,037 LOC, 994 LOC tests. How do I, as a reviewer, verify any of this in less than five minutes?</p>
+<p><strong>The receipt.</strong> One command:</p>
+<pre><code class="language-bash">git clone https://github.com/coreyalejandro/living-constitution.git
+cd living-constitution
+make verify
+</code></pre>
+<p><code>make verify</code> returns 62/62 (Constitution) and 212/212 (PROACTIVE) in $\leq 90$ seconds on a 2024-era developer laptop. The output is reproducible byte-for-byte against the published hash in <code>/provenance/test-results.json</code>. The Makefile, the test suite, and the runtime registry are all open.</p>
+<p><strong>The honest concession.</strong> If you cannot reproduce the test results in 90 seconds, please file an issue at the runtime repo. This is the failure mode the engineering reviewer is most likely to expose; we treat such reports as P0 bugs.</p>
+<hr />
+<h2>Objection 8 — "Who are you? Why should I read this?"</h2>
+<p><strong>The reviewer's full form.</strong> The portfolio is intensely about its author but does not present a coherent professional history, prior work, or independent reasons to take the author seriously as an AI safety contributor.</p>
+<p><strong>The receipt.</strong> <code>/about/corey.md</code> is the founder bio. It contains: prior work (with citations and outcomes), prior employers and roles, prior projects (MADMall and its current state), education, and stated identity (autistic, Black, with a history of housing insecurity — facts material to the work, not credentials). It does not pad. It does not list affiliations the author does not have.</p>
+<p><strong>The honest concession.</strong> The author is not credentialed in the conventional AI safety pipeline. The work is therefore unusual and asks to be read on its merits rather than on its provenance. The reviewer who reads only on provenance is making a category error in the other direction.</p>
+<hr />
+<h2>Objection 9 — "Where is the funding ask? What does this need to grow?"</h2>
+<p><strong>The reviewer's full form.</strong> "Conditional on time, funding, or a collaborator" is a gesture. Where is the actual ask?</p>
+<p><strong>The receipt.</strong> <code>/support/funding-ask.md</code>. One page. Entity, fiscal sponsor, deliverables for 6/12/24 months, budget bands, the question the funder's dollars answer.</p>
+<p><strong>The honest concession.</strong> A funder cannot wire money to a personal portfolio site. The fiscal sponsor relationship described at <code>/governance/fiscal-sponsor.md</code> is the vehicle. If you are a funder reading this, the right entry point is <code>/support/funding-ask.md</code>.</p>
+<hr />
+<h2>Objection 10 — "The polemic against 'the guild' will close every door you need."</h2>
+<p><strong>The reviewer's full form.</strong> The homepage explicitly antagonizes institutional AI safety. The same institutions are gatekeepers of funding, citation, and collaboration. The polemic is a strategic error.</p>
+<p><strong>The receipt.</strong> This is a value disagreement, not a factual one, so the response is not a receipt but a position. The polemic is editorial framing in service of an empirical claim. The empirical claim is in the paper, which can be read independent of the polemic. Institutions that read the paper on its merits and engage are welcome; institutions that read the polemic and disengage are exercising their own filter, which the polemic was partly designed to be.</p>
+<p><strong>The honest concession.</strong> This <em>is</em> a strategic risk. We have made a bet that the population of readers we lose to the polemic is smaller and less load-bearing than the population we gain by signaling that the work is not seeking the institutions' approval. That bet may be wrong. The empirical paper exists in a register that does not require this bet to be right.</p>
+<hr />
+<p>This page is open for amendment. New objections from named or anonymous reviewers will be added with attribution (with permission) or anonymized notation. Send objections to <code>objections@coreyalejandro.com</code>.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="paper.html">Paper · the CCD preprint</a> <a href="governance/coi.html">Conflict of interest</a> <a href="programs/adversarial-review.html">Adversarial review track</a> <a href="governance/disclosures.html">Disclosure log</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="about.html">about</a> · <a href="subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="paper.html">Paper (CCD)</a>
+      <a href="research/corpus.html">Corpus</a>
+      <a href="research/lit-review.html">Lit review</a>
+      <a href="research/taxonomy.html">Taxonomy</a>
+      <a href="research/methodology.html">Methodology</a>
+      <a href="research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="runtime/reproduce.html">Reproduce path</a>
+      <a href="runtime/quickstart.html">Quickstart</a>
+      <a href="runtime/benchmarks.html">Benchmarks</a>
+      <a href="runtime/sdk.html">Open SDK</a>
+      <a href="runtime/plugin.html">Plug-in spec</a>
+      <a href="detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="funding-ask.html">Funding ask</a>
+      <a href="governance/coi.html">Conflicts of interest</a>
+      <a href="governance/disclosures.html">Disclosure log</a>
+      <a href="programs/pilot.html">Pilot program</a>
+      <a href="programs/fellowship.html">Fellowship</a>
+      <a href="sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="assets/hud.js"></script>
+<script src="assets/kernel.js"></script>
+<script src="assets/detector.js"></script>
+<script src="assets/amendments.js"></script>
+<script src="assets/site.js"></script>
+
+</body>
+</html>

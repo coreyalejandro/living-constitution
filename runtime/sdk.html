@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Sentinel Open SDK — Design Document — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link is-active">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /runtime/open-sdk-design
+  </div>
+  <h1 class="op-title">Agent Sentinel Open SDK — Design Document</h1>
+  <div class="op-status">
+    <span class="status-chip in-progress">v0.1 design draft</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/runtime/open-sdk-design.md</code> · v0.1 (design draft) · 2026.05</p>
+<p>The portfolio's stance toward coding-assistant vendors is publicly adversarial. The Open SDK is the operational counter-move: it gives vendors a path to <em>participate</em> by self-instrumenting and emitting structured signals consumable by Agent Sentinel. The SDK reframes the relationship from adversarial detection to collaborative instrumentation, without softening the empirical claim.</p>
+<p>A vendor who self-instruments earns three things: (1) better Sentinel signal quality on their own product (because they expose more state than passive observation can recover), (2) a public Calibration Badge tying their product to the open conformance suite, and (3) standing in the conversation about CCD without having to dispute the construct.</p>
+<p>The Open SDK is the <em>option</em> the vendor would accept if there were one. This document is the design for that option.</p>
+<hr />
+<h2>What the SDK does</h2>
+<p>An SDK that ships in two layers:</p>
+<h3>Layer 1 — Emitter API</h3>
+<p>For coding-assistant runtimes (Kiro, Cursor, Continue, Aider, Claude-CLI, GitHub Copilot, etc.) to <em>emit</em> structured signals into a local socket or file that Sentinel consumes. The emitter exposes:</p>
+<ul>
+<li><code>agent_session_start(session_id, model, vendor)</code>.</li>
+<li><code>agent_turn(session_id, turn_id, role, content, attached_files)</code>.</li>
+<li><code>agent_claim(session_id, turn_id, component_id, claim_kind, claim_text)</code> — for the vendor to label specific utterances as completion claims.</li>
+<li><code>agent_artifact(session_id, turn_id, file_path, sha, intent)</code> — for the vendor to label generated artifacts with their intent (e.g., <code>documentation</code>, <code>runtime</code>, <code>scaffold</code>, <code>mockup</code>).</li>
+<li><code>agent_runtime_check(session_id, component_id, check_outcome, evidence)</code> — for the vendor to surface its own internal completion-verification logic (where any exists).</li>
+<li><code>agent_session_end(session_id, end_reason)</code>.</li>
+</ul>
+<p>The emitter is fire-and-forget. No telemetry leaves the user's machine. Sentinel reads from the local socket.</p>
+<h3>Layer 2 — Consumer integration</h3>
+<p>A small library (<code>sentinel-consumer</code>) that:
+- Listens on the local emitter socket.
+- Normalizes events into Sentinel's <code>Interaction</code> shape.
+- Runs PROACTIVE / configured detectors against the live event stream.
+- Surfaces detections back to the runtime via a callback API.</p>
+<p>Layer 2 lets the runtime (the IDE, the CLI, the agent loop) <em>show</em> Sentinel's signal in its own UI, without the user installing a separate Sentinel client.</p>
+<hr />
+<h2>Why a vendor would adopt this</h2>
+<p>Three reasons, each load-bearing:</p>
+<h3>1. Better signal quality on the vendor's own product</h3>
+<p>Passive observation sees text and files. Active instrumentation sees the vendor's <em>intent</em>. The same generated file is treated very differently by Sentinel depending on whether the runtime labels it <code>scaffold</code> (legitimate template), <code>documentation</code> (legitimate plan), or <code>runtime</code> (claimed working code). Without instrumentation, Sentinel must infer. With instrumentation, the vendor controls the framing.</p>
+<p>This is the same logic by which a vendor would prefer to <em>self-publish</em> a security advisory rather than have one published about them.</p>
+<h3>2. The Calibration Badge</h3>
+<p>A vendor whose runtime emits SDK signals can participate in the standard evaluation harness. Their product's detector results are then reported on the conformance dashboard with their own labels. The Calibration Badge becomes a product-marketing asset.</p>
+<p>A vendor that does not participate is also evaluated, but with all the inferential ambiguity that passive observation imposes.</p>
+<h3>3. Standing in the conversation</h3>
+<p>The empirical claim about CCD will continue to be discussed in safety venues regardless of vendor preferences. A vendor who has instrumented their product is in the conversation as a participant. A vendor who has not is in the conversation as a subject. The SDK exists so vendors can choose the first.</p>
+<hr />
+<h2>What adoption costs the vendor</h2>
+<p>Honest accounting:</p>
+<ul>
+<li><strong>Engineering cost.</strong> An emitter integration for a typical coding-assistant runtime is 1–3 engineer-weeks. The reference emitter is open-source and MIT-licensed.</li>
+<li><strong>Surface-area cost.</strong> The SDK adds a small public surface (the emitter API) that the vendor commits to maintain.</li>
+<li><strong>Reputational cost.</strong> A vendor that integrates and then exhibits CCD in the wild will have a more legible failure than a vendor that did not integrate. We argue this is a <em>benefit</em>, not a cost — legibility is what behavioral safety means — but a vendor's PR team may not see it that way.</li>
+<li><strong>Operational cost.</strong> Logging events to a local socket is approximately free; the runtime user controls all data.</li>
+</ul>
+<p>No vendor lock-in. The emitter API is open and stable; a vendor that integrates and later wants to stop can deprecate emitter calls without affecting their product.</p>
+<hr />
+<h2>What adoption does <em>not</em> commit the vendor to</h2>
+<ul>
+<li>Adopting Sentinel's detection conclusions.</li>
+<li>Endorsing the polemic.</li>
+<li>Funding the program.</li>
+<li>Releasing model weights, training data, or any proprietary information.</li>
+<li>Joining the advisory board.</li>
+<li>Allowing Sentinel into their model's serving infrastructure.</li>
+</ul>
+<p>The SDK is a one-way emitter API. Anything beyond it is a separate conversation.</p>
+<hr />
+<h2>Design constraints</h2>
+<p><strong>Local-first by construction.</strong> Emitter writes to a local socket; consumer reads from it. No cross-machine telemetry. A vendor whose security model forbids any telemetry-shaped feature can still emit to a no-op consumer if needed.</p>
+<p><strong>Consent-honored.</strong> The user controls whether the consumer is running. Without a consumer, the emitter's writes go nowhere; no data is retained.</p>
+<p><strong>Standard-shaped.</strong> The emitter API uses OpenTelemetry-style event shapes where possible, so the vendor's existing observability infrastructure can read the events for the vendor's own purposes.</p>
+<p><strong>Minimal feature surface in v1.</strong> Six emitter methods. Each is necessary. Each can be added to a runtime in a single afternoon of engineering work once the contracts are understood.</p>
+<hr />
+<h2>Reference implementations planned</h2>
+<ul>
+<li><code>sentinel-emitter-python</code> — Python emitter for Claude-CLI, Aider, Continue.</li>
+<li><code>sentinel-emitter-typescript</code> — Node/TS emitter for Cursor, VS Code-based runtimes.</li>
+<li><code>sentinel-emitter-rust</code> — Rust emitter for any low-level integrator who prefers it.</li>
+<li><code>sentinel-consumer-python</code> — the consumer library.</li>
+</ul>
+<p>All MIT-licensed. All shipped together at v1.</p>
+<hr />
+<h2>What the SDK is <em>not</em></h2>
+<ul>
+<li>Not a behavioral evaluation framework for the vendor's R&amp;D team. (Different problem; vendors have their own.)</li>
+<li>Not a competitor to vendor-internal observability stacks. (The SDK <em>emits to</em> whatever observability the vendor already has, in addition to Sentinel.)</li>
+<li>Not a precondition for using Sentinel. (Sentinel works against passive observation. The SDK improves the signal but is optional.)</li>
+</ul>
+<hr />
+<h2>The first three integrations</h2>
+<p>Aspirational, conditional on $480k funding tier and pilot relationships:</p>
+<ol>
+<li><strong>A friendly small-vendor integration first.</strong> Aider or Continue (open-source, lower switching cost, faster to ship and reference) as the first emitter integration.</li>
+<li><strong>A research-lab integration second.</strong> A safety-team-internal coding-assistant runtime at one of the major labs. (We have no agreement; we have a hypothesis that one of them would value a research-shaped engagement.)</li>
+<li><strong>A commercial-vendor integration third.</strong> Cursor or Continue at a commercial-grade integration; this is the one whose value the SDK is ultimately measured on.</li>
+</ol>
+<p>Public timeline: 2027 Q1 first integration RFC; 2027 Q2 first shipping integration.</p>
+<hr />
+<h2>RFC status</h2>
+<p>This is a design document, not a frozen interface. The emitter and consumer APIs may change substantially during the first three vendor conversations. The freeze target is v1.0 at 2027 Q1.</p>
+<p>Implementer feedback is welcome. The most valuable feedback at this stage is "this would not survive contact with my runtime because X."</p>
+<hr />
+<h2>A note on the polemic</h2>
+<p>This SDK exists because the work intends to <em>succeed at safety</em>, not to <em>succeed at the polemic</em>. The polemic is the recruiting mechanism for readers who care; the SDK is the operational pathway for vendors who, having read the work, decide to participate.</p>
+<p>A vendor that integrates the SDK does not endorse the polemic. The author retains the polemic. The SDK is the place where the work and the vendor can meet without either party giving up its register.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../runtime/plugin.html">Plug-in interface</a> <a href="../runtime/quickstart.html">Quickstart</a> <a href="../programs/pilot.html">Pilot template</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

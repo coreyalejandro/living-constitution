@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Advisory board outreach — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link is-active">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /governance/advisory-board
+  </div>
+  <h1 class="op-title">Advisory board outreach</h1>
+  <div class="op-status">
+    <span class="status-chip in-progress">recruitment open · 0/3 confirmed</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/governance/advisory-board.md</code> · v1.0 · 2026.05</p>
+<p>This document specifies who the advisory board is, who it is <em>not</em>, how members are recruited, the time commitment expected, the compensation structure, and a template outreach letter. The board is the structural counter to the founder-isolation risk that every reviewer and funder will flag.</p>
+<hr />
+<h2>Who the advisory board is</h2>
+<p>A 3–5 person standing body whose members:
+- Are credible to either the AI-safety research community, the AI-safety funding community, or the open-source engineering community.
+- Are willing to publicly lend their name and time to the Constitution.
+- Will provide quarterly structured input and quick written feedback on specific decisions on request.
+- Have no employment, contracting, or equity relationship with the project beyond the advisory honorarium.</p>
+<p>The target composition (aspirational, will not all be filled simultaneously at launch):</p>
+<ol>
+<li><strong>One AI safety researcher</strong> with peer-reviewed work in deceptive behavior, sycophancy, or alignment. Preferably not affiliated with the vendor named in FOLIO 001, to avoid one-degree COI on the founding incident.</li>
+<li><strong>One open-source / behavioral observability engineer</strong> with shipping experience in production-grade detection systems.</li>
+<li><strong>One neurodivergent or disability-justice scholar / practitioner</strong> to validate the methodology paper as a method (not as advocacy).</li>
+<li><strong>One funder-adjacent operator</strong> with grantmaking or fiscal-sponsorship experience to keep the funding strategy grounded.</li>
+<li><strong>One vendor-adjacent observer</strong> (former safety-team member at a major lab; not currently employed at one) for inside-perspective on disclosure and integration paths.</li>
+</ol>
+<p>A board of three at launch is sufficient. A board of five at year-end is the goal.</p>
+<hr />
+<h2>Who the advisory board is <em>not</em></h2>
+<ul>
+<li>Not a governance body with override authority. The author retains editorial control. The board advises.</li>
+<li>Not a salaried entity. Honoraria only.</li>
+<li>Not a co-author surface. Board members do not author papers unless they substantively contributed and pass the standard authorship test (ICMJE for biomedical-adjacent; ACM authorship guidelines for technical).</li>
+<li>Not a fundraising endorsement automatically. Board members are not assumed to endorse every funding ask; their endorsement of specific asks is explicit and opt-in.</li>
+<li>Not a censorship surface. Board members can object to specific public statements but cannot require suppression. Their disagreements are publishable.</li>
+</ul>
+<hr />
+<h2>Time commitment</h2>
+<ul>
+<li><strong>Quarterly meetings</strong> (1 hour, video). Four per year.</li>
+<li><strong>Out-of-cycle written input</strong> as requested. Target: $\leq 30$ minutes per request, $\leq 6$ requests per year.</li>
+<li><strong>Ad-hoc availability</strong> for high-stakes decisions (e.g., responding to a major vendor inquiry).</li>
+</ul>
+<p>Annual total: 6–10 hours.</p>
+<hr />
+<h2>Compensation</h2>
+<p>$1,500 per quarterly meeting attended. $4,000 per board member per year if attending all four meetings. Compensated from program funding via the fiscal sponsor.</p>
+<p>No equity. No revenue share. No long-term retainer.</p>
+<p>If the program is unfunded, the honorarium is waived in writing, and the board member is offered the option of accepting deferred honoraria payable upon funding. Some will decline that option; that is fine.</p>
+<hr />
+<h2>Recruitment criteria, in order</h2>
+<ol>
+<li><strong>The work is consequential to them.</strong> Members who care about CCD as a research question or about behavioral safety as an engineering problem are stronger members than members who join out of relationship loyalty.</li>
+<li><strong>They have public objections they want to ship through this work.</strong> A member who has been frustrated by the field's slow uptake of behavioral observability is a better fit than a member who finds the current pace satisfactory.</li>
+<li><strong>They are comfortable with the polemic on the homepage.</strong> They do not have to endorse it, but they cannot be members who will repeatedly ask for it to be removed.</li>
+<li><strong>They will say no to the author.</strong> A board member who agrees with every decision is operationally a vanity board.</li>
+</ol>
+<hr />
+<h2>Template outreach letter</h2>
+<p>Subject: Advisory role on construct-confidence deception research program</p>
+<p>Hi [Name],</p>
+<p>I'm writing to ask if you'd consider an advisory role on a research program I've been running independently for the past month at <em>The Living Constitution</em> (coreyalejandro.com). The work is centered on construct-confidence deception in coding assistants — a behavioral safety failure I've defined operationally in a preprint (v0.1 attached) and detected with an open-source detector (PROACTIVE, 100% recall on a held-in corpus of 19 cases, pre-registered held-out evaluation on $\geq$100 cases scheduled for the next six months).</p>
+<p>I'm building a three-to-five-person advisory board to do three things: (a) sanity-check decisions before they ship, (b) lend names so the program has institutional legibility, and (c) tell me when I'm wrong.</p>
+<p>The commitment is four 60-minute meetings per year plus occasional written input — honorarium of $1,500 per attended meeting (funded through our fiscal sponsor; current funding sufficient for the first cycle, longer-term funding contingent on grants we're actively pursuing).</p>
+<p>I'm asking you specifically because [specific reason — published work, prior public statement, complementary engineering or methodological perspective].</p>
+<p>I'd love a 30-minute call to walk you through the program. I can offer:
+- the CCD preprint (<code>https://coreyalejandro.com/paper/</code>),
+- the corpus disclosure (<code>https://coreyalejandro.com/research/corpus/</code>),
+- the pre-registration (<code>https://coreyalejandro.com/research/pre-registration-v1.md</code>),
+- the conflict-of-interest statement (<code>https://coreyalejandro.com/governance/coi.md</code>),
+- the funding ask (<code>https://coreyalejandro.com/support/funding-ask.md</code>).</p>
+<p>If you'd rather just look at the artifacts before agreeing to a call, the same links work.</p>
+<p>Two notes that may matter to you:</p>
+<ol>
+<li>
+<p>The work names specific vendors (Amazon/Kiro, Anthropic/Claude) in a founding incident I was personally the user in. The conflict is structural and disclosed; the empirical claim is structured to be falsifiable without reference to the founding case. I want you to feel free to object to anything about the framing, including the polemic on the homepage.</p>
+</li>
+<li>
+<p>I am an autistic, neurodivergent researcher building from a position outside the conventional AI-safety pipeline. The methodology I've published reflects that. I don't expect you to endorse my framing of the methodology as a <em>method</em> (vs. a stance) without reading the paper, but I want you to know the work is grounded that way before you say yes.</p>
+</li>
+</ol>
+<p>Thank you for considering this. A no is welcome and won't cost anything between us.</p>
+<p>— Corey</p>
+<hr />
+<h2>Outreach targets, prioritized</h2>
+<p>A working shortlist is maintained privately. Names will be added to this public document only when the named person agrees to be listed. The shortlist process:</p>
+<ol>
+<li><strong>Round 1 (weeks 1–4):</strong> 8 outreach letters to Tier-1 candidates across the five role types.</li>
+<li><strong>Round 2 (weeks 5–8):</strong> Follow-up plus 4 additional letters to Tier-2 candidates.</li>
+<li><strong>Round 3 (weeks 9–12):</strong> Confirm yes-responses; seat first three members; publish names with consent.</li>
+</ol>
+<p>A target of three confirmed members by week 12. If by week 16 only one or two have confirmed, the program proceeds with that smaller board and another recruitment round in Q3.</p>
+<hr />
+<h2>What happens if outreach fails</h2>
+<p>If by week 24 no advisor has confirmed, the public reading is that the work is not yet institutionally credible. The honest response is to publish that fact: "as of [date], the Constitution has zero board members. We are continuing recruitment. The held-out corpus result, when it lands, may be the structural change that converts further outreach. We will not paper over this absence with vague 'advisors' or 'collaborators' who have not formally agreed."</p>
+<p>The work continues either way. The empirical paper does not depend on board membership. But the funder gate and the citation gate may, and we publish that fact honestly rather than concealing it.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../governance/coi.html">Conflict of interest</a> <a href="../governance/fiscal-sponsor.html">Fiscal sponsor strategy</a> <a href="../roadmap.html">Roadmap</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

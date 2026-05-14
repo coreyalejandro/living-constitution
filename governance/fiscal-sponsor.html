@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fiscal sponsorship strategy — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link is-active">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /governance/fiscal-sponsor
+  </div>
+  <h1 class="op-title">Fiscal sponsorship strategy</h1>
+  <div class="op-status">
+    <span class="status-chip in-progress">in negotiation</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/governance/fiscal-sponsor.md</code> · v1.0 · 2026.05</p>
+<p>This memo states why The Living Constitution needs a fiscal sponsor, which sponsors are appropriate, what the relationship looks like operationally, and a decision-by date for selecting one. The audience is the founder, the advisory board (once seated), and prospective funders who need to know the vehicle exists.</p>
+<p>A funder cannot wire a grant to a personal portfolio site. The fiscal sponsor is the legal vehicle that makes the funding ask actionable.</p>
+<hr />
+<h2>What we need from a sponsor</h2>
+<ol>
+<li><strong>501(c)(3) status</strong> so US foundation grants and tax-deductible individual donations are possible.</li>
+<li><strong>Comfort with publicly-named-vendor research.</strong> The work names Amazon, Anthropic, and others. A sponsor that requires pre-approval of public statements is incompatible.</li>
+<li><strong>Low operational overhead.</strong> Founder time spent on grant administration is founder time not spent on the work. 7–10% sponsor fee is acceptable; higher is not, unless services beyond fiscal sponsorship are genuinely included.</li>
+<li><strong>Pass-through capability for restricted grants.</strong> Funder-restricted dollars must be traceable.</li>
+<li><strong>Comfort with open licensing.</strong> Code is MIT; corpus is RRL-v1; paper is CC-BY. No sponsor that asks to restrict outputs.</li>
+<li><strong>Willingness to support a founder stipend.</strong> Some sponsors have policies against compensating principals; we need one without that restriction or with explicit exceptions.</li>
+</ol>
+<hr />
+<h2>Candidate sponsors</h2>
+<h3>Tier 1 — Best fit, contact in 30 days</h3>
+<p><strong>Open Collective Foundation (OCF) / Open Source Collective (OSC).</strong>
+- 10% overhead.
+- Open-source-native, comfortable with public-facing project pages.
+- Pass-through restricted grants supported.
+- Will sponsor a founder stipend if funded by a grant explicitly designated for it.
+- <em>Concern.</em> Recent uncertainty in OCF's hosting model (the host wind-down in 2024 displaced many projects). Verify current state before signing.</p>
+<p><strong>The Astera Institute (via fiscal sponsorship for early-career AI safety researchers).</strong>
+- Has fiscal-sponsored independent AI-safety researchers before.
+- Active in the field; possible advisory bridge.
+- Higher overhead (12–15%).
+- <em>Concern.</em> Limited capacity; may not take new sponsorships.</p>
+<h3>Tier 2 — Plausible, contact in 60 days</h3>
+<p><strong>The Better Internet Initiative.</strong>
+- Open-internet, public-interest focus.
+- Track record of fiscal-sponsoring projects with public-facing advocacy components.
+- Comfortable with named-vendor research.
+- <em>Concern.</em> AI safety is adjacent to but not the center of their portfolio.</p>
+<p><strong>Code for Science &amp; Society.</strong>
+- Sponsors open-source scientific software projects.
+- Strong reproducibility culture (aligned).
+- 10% overhead.
+- <em>Concern.</em> Their model is software-first; the research-and-publication side may need a co-sponsor.</p>
+<h3>Tier 3 — Long shots, contact only if Tier 1 fails</h3>
+<p><strong>A university-based center.</strong> Some universities will fiscally sponsor independent researchers; this typically requires an existing relationship. No relationship exists; not a near-term path.</p>
+<p><strong>A new 501(c)(3).</strong> Forming our own is technically possible but expensive ($500–$2,500 legal, 3–6 months filing) and adds organizational overhead. Not appropriate at the current scale.</p>
+<hr />
+<h2>Decision criteria, scored</h2>
+<table>
+<thead>
+<tr>
+<th>Criterion</th>
+<th>Weight</th>
+<th>OCF/OSC</th>
+<th>Astera</th>
+<th>TBII</th>
+<th>CSS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Overhead</td>
+<td>0.20</td>
+<td>9</td>
+<td>6</td>
+<td>7</td>
+<td>9</td>
+</tr>
+<tr>
+<td>AI-safety familiarity</td>
+<td>0.20</td>
+<td>5</td>
+<td>9</td>
+<td>4</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Founder-stipend support</td>
+<td>0.15</td>
+<td>9</td>
+<td>7</td>
+<td>6</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Vendor-research comfort</td>
+<td>0.15</td>
+<td>8</td>
+<td>8</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Open-licensing comfort</td>
+<td>0.10</td>
+<td>10</td>
+<td>8</td>
+<td>9</td>
+<td>10</td>
+</tr>
+<tr>
+<td>Speed to onboarding</td>
+<td>0.10</td>
+<td>9</td>
+<td>4</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Capacity availability</td>
+<td>0.10</td>
+<td>8</td>
+<td>4</td>
+<td>7</td>
+<td>7</td>
+</tr>
+<tr>
+<td><strong>Weighted score (out of 10)</strong></td>
+<td></td>
+<td><strong>7.95</strong></td>
+<td><strong>6.85</strong></td>
+<td><strong>6.10</strong></td>
+<td><strong>7.45</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Lead candidate: <strong>OCF/OSC</strong> subject to verification of current hosting model.
+Backup: <strong>CSS</strong> as primary technical sponsor with a co-fiscal-sponsor relationship for the research outputs if needed.</p>
+<hr />
+<h2>Operational shape</h2>
+<p>Once a sponsor is selected:</p>
+<ol>
+<li><strong>Project agreement</strong> drafted within 14 days. Covers scope, IP ownership (project retains all rights to outputs), founder stipend mechanism, and grant pass-through procedures.</li>
+<li><strong>Funder-facing landing page</strong> at <code>/support/give.md</code> updated to reference the sponsor, with the sponsor's tax ID and donation mechanics visible.</li>
+<li><strong>Restricted-grant procedures</strong> documented so a funder restricting dollars to (e.g.) the held-out corpus has a clean audit trail.</li>
+<li><strong>Quarterly financial reports</strong> published at <code>/governance/finances.md</code>. The Constitution does not have private finances.</li>
+</ol>
+<hr />
+<h2>What signing a sponsor <em>does not</em> mean</h2>
+<ul>
+<li>It does not give the sponsor editorial control. Public statements remain the author's.</li>
+<li>It does not transfer IP. The project retains copyright on all outputs under the agreed licenses.</li>
+<li>It does not constrain the polemic. The sponsor underwrites the project; it does not endorse every line of homepage copy.</li>
+<li>It does not require the project to fundraise through the sponsor exclusively. Direct donations remain possible if a funder prefers.</li>
+</ul>
+<p>If a candidate sponsor proposes terms that contradict any of the above, that proposal is grounds to switch candidates rather than to soften the terms.</p>
+<hr />
+<h2>Timeline</h2>
+<ul>
+<li><strong>Week 1–2:</strong> Contact OCF/OSC; verify hosting model; request introduction call.</li>
+<li><strong>Week 3–4:</strong> Parallel contacts with Astera, TBII, CSS.</li>
+<li><strong>Week 5–6:</strong> Comparative review with advisory board members (if any are seated by then) or with two trusted external reviewers.</li>
+<li><strong>Week 7–8:</strong> Sign with chosen sponsor.</li>
+<li><strong>Week 9:</strong> Public announcement; funder-facing pages updated.</li>
+</ul>
+<p>Total: 9 weeks from initiation to operational. Funding asks pending sponsor selection are flagged as such on <code>/support/funding-ask.md</code>.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../funding-ask.html">Funding ask</a> <a href="../roadmap.html">Roadmap</a> <a href="../governance/advisory-board.html">Advisory board</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

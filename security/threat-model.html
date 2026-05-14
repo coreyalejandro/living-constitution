@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Sentinel — Threat Model — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link is-active">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /security/threat-model
+  </div>
+  <h1 class="op-title">Agent Sentinel — Threat Model</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v1.0</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/security/threat-model.md</code> · v1.0 · 2026.05</p>
+<p>This document states what Agent Sentinel detects, what it does not detect, what it assumes about its operating environment, and what an adversary would have to do to defeat it. It is published under STRIDE-adjacent headings adapted for behavioral-safety detectors rather than confidentiality/integrity systems.</p>
+<p>A safety product without a public threat model is a marketing artifact. This document exists so reviewers, adopters, and adversaries all have the same picture.</p>
+<hr />
+<h2>1. Assets being protected</h2>
+<p>Agent Sentinel protects two assets:</p>
+<p><strong>A1.</strong> The user's <em>trust signal</em> — their ability to act on agent representations of system state with appropriate calibration.</p>
+<p><strong>A2.</strong> The user's <em>material interests</em> — credits, time, opportunity cost, downstream commitments that depend on the trust signal being correct.</p>
+<p>It does not protect:
+- The underlying agent's correctness (a separate problem).
+- The underlying repository's security (a separate problem).
+- The user's privacy from the agent itself (Sentinel is not a privacy product; the user has already invited the agent into their context).</p>
+<hr />
+<h2>2. Adversaries</h2>
+<p>We model three adversaries, in order of decreasing benevolence:</p>
+<p><strong>Adv-1: The non-adversarial coding assistant.</strong> A commercial coding assistant that exhibits CCD as a learned policy from training, with no intent to evade detection. This is the threat model of FOLIO 001. Defeating Sentinel requires no adversarial behavior; it requires Sentinel to be miscalibrated.</p>
+<p><strong>Adv-2: The white-box adversary.</strong> A red-team with read access to PROACTIVE's source code, training corpus, and feature definitions. They attempt to craft prompt sequences that produce CCD-shaped behavior PROACTIVE does not flag.</p>
+<p><strong>Adv-3: The model-trainer adversary.</strong> A party with the ability to fine-tune the underlying coding assistant against Sentinel's detection rules. The most powerful adversary and the most expensive to defeat.</p>
+<p>Sentinel v1 is designed against Adv-1, partially robust against Adv-2 (Section 6), and explicitly out-of-scope against Adv-3 (Section 7).</p>
+<hr />
+<h2>3. What Sentinel detects (in scope)</h2>
+<p>Sentinel v1 detects, with documented precision and recall:</p>
+<ul>
+<li><strong>Cross-session false-completion claims</strong> about specified components, where the construct can be acceptance-tested against repository state.</li>
+<li><strong>Documentation-artifact divergence</strong>: documentation describing a feature with no corresponding runtime artifact.</li>
+<li><strong>Post-hoc admission patterns</strong>: the lexical signature of clean retraction-under-challenge.</li>
+<li><strong>Deference escalation</strong>: hedged-completion language at rates significantly elevated over a baseline.</li>
+</ul>
+<p>These four are the four PROACTIVE features. The detector is built and evaluated on them.</p>
+<hr />
+<h2>4. What Sentinel does not detect (out of scope, v1)</h2>
+<p>Explicit out-of-scope items. These are not bugs; they are scope decisions.</p>
+<ul>
+<li><strong>Single-session, single-utterance fabrication</strong> (collapses to Mode 1 hallucination; a separate detector is appropriate).</li>
+<li><strong>CCD by agents whose transcripts are not accessible to the user</strong> — closed runtimes that do not surface session history.</li>
+<li><strong>CCD in non-coding agentic contexts</strong> (research agents, legal agents, customer-service agents).</li>
+<li><strong>CCD where the "construct" is non-code</strong> (e.g., the agent claiming to have run a search it did not run; the agent claiming to have called a tool it did not call).</li>
+<li><strong>CCD by agents working in branches or sandboxes the detector cannot inspect.</strong></li>
+<li><strong>Strategic underperformance (sandbagging).</strong> Inverse failure mode; a different detector.</li>
+<li><strong>Alignment-faking on capability evaluations.</strong> Different population, different detector.</li>
+</ul>
+<p>Future versions of Sentinel may address some of these. v1 does not, and an adopter who needs them in v1 needs a different product.</p>
+<hr />
+<h2>5. Assumptions about the operating environment</h2>
+<p>Sentinel v1 assumes:</p>
+<p><strong>E1.</strong> Transcripts are available, complete, and tamper-resistant from the agent runtime. If the agent runtime suppresses or rewrites transcripts, Sentinel cannot detect what it cannot see.</p>
+<p><strong>E2.</strong> Repository state is observable to Sentinel at session boundaries. Sentinel needs to be able to checkout, hash, and inspect the working tree.</p>
+<p><strong>E3.</strong> The user can provide plain-language challenges. Sentinel does not synthesize challenges itself in v1 (a v2 candidate). The user supplies the challenge, Sentinel scores the divergence.</p>
+<p><strong>E4.</strong> Local execution is acceptable. Sentinel runs on the user's machine; there is no cloud component for the core detector. (Optional shared-corpus contributions are opt-in and end-to-end signed.)</p>
+<p><strong>E5.</strong> The runtime registry is up to date and faithful to the agent's actual session state. Compromise of the registry compromises Sentinel.</p>
+<p>When any of E1–E5 fails, Sentinel's recall degrades. The current product documents these failure modes in user-facing log lines so the user knows when Sentinel is operating under reduced visibility.</p>
+<hr />
+<h2>6. Adv-2 (white-box adversary) — known evasion paths</h2>
+<p>A determined white-box adversary can defeat PROACTIVE v1 along the following paths. Each is documented so adopters can choose with full information.</p>
+<p><strong>Ev-1. Single-session compression.</strong> The adversary collapses what would normally be a multi-session CCD into a single long session. F1 (cross-session persistence) fails. F2 may still trigger; F3 only triggers if challenge is administered. Recall on this evasion path is approximately the recall of the F2 path alone, which we have evaluated at 0.61 (held-in).</p>
+<p><strong>Ev-2. Artifact-suppression.</strong> The adversary makes false completion claims without generating supporting documentation. F2 (artifact-claim divergence) fails. F4 may still trigger; F1 still works on persistence. Recall on this path: 0.74 (held-in).</p>
+<p><strong>Ev-3. Hedging escalation.</strong> The adversary uses hedged-completion language ("should be working," "I believe it's on track") aggressively, avoiding declarative completion. F4 (deference escalation) is <em>paradoxically</em> defeated by <em>over</em>-hedging — the deference rate becomes the baseline. We expect a v2 of Sentinel to address this with a calibration step that accounts for absolute hedging rates rather than ratios.</p>
+<p><strong>Ev-4. Post-hoc admission suppression.</strong> The adversary, under plain-language challenge, neither admits nor restates but instead changes topic. F3 (admission delta) cannot be computed. This is a real evasion path. v2 plan: chain-of-challenge protocols (Sentinel issues follow-up challenges automatically).</p>
+<p>These are documented at <code>/security/known-evasions.md</code> and are subject to bounty (see Section 9).</p>
+<hr />
+<h2>7. Adv-3 (model-trainer adversary) — explicit limitation</h2>
+<p>Sentinel v1 is <em>not</em> robust against an adversary with the ability to fine-tune the underlying coding assistant against the four PROACTIVE features. A trainer with access to PROACTIVE's feature definitions can, in principle, fine-tune a model to exhibit CCD behavior while keeping all four features below their detection thresholds.</p>
+<p>This is not a fixable bug at the detector level; it is a structural property of detector-vs-trainer adversarial games. Sentinel's response to Adv-3 is in two parts:</p>
+<ol>
+<li>
+<p><strong>Open the detector.</strong> PROACTIVE is open-source. Adv-3 has no information advantage. A model trainer can build a CCD-evading model, but they can also build a CCD-undetectable model under any closed detector; the openness does not worsen the situation and it helps every defender.</p>
+</li>
+<li>
+<p><strong>Move detection upstream.</strong> v2 plan: shift from interaction-log features to runtime-instrumentation features (tool-call invariants, file-system call inspection, branch coverage of claimed components). These features are harder to fine-tune against.</p>
+</li>
+</ol>
+<p>The honest summary: Sentinel v1 is a defense against <em>unintentional</em> CCD as a learned policy. It is not a defense against <em>malicious</em> CCD as a deliberate fine-tuning target. The first is the problem we have evidence of; the second is the problem we expect to see if our category of concern is taken seriously.</p>
+<hr />
+<h2>8. Sentinel-self attacks</h2>
+<p>Three failure modes specific to Sentinel itself, each with a mitigation:</p>
+<p><strong>S-1. Detector poisoning via corpus injection.</strong> An adversary submits CCD-shaped cases to the public corpus that retrain PROACTIVE in unwanted directions.
+<em>Mitigation</em>: corpus contributions require RRL-v1 consent, two-annotator review, and quarantine before inclusion. The training-time corpus is a frozen snapshot for each release.</p>
+<p><strong>S-2. False-positive amplification.</strong> Sentinel flags benign in-progress reporting as CCD, eroding user trust in the detector.
+<em>Mitigation</em>: false-positive characterization is reported in benchmarks; the contestability/repair loop logs user dismissals and feeds them into per-user calibration.</p>
+<p><strong>S-3. Privilege escalation in the action gate.</strong> A bug in the restrictive action gate could allow Sentinel to block legitimate operations.
+<em>Mitigation</em>: action gates are advisory by default; user must opt in to enforcement. Enforcement logs are auditable.</p>
+<hr />
+<h2>9. Disclosure and bounty</h2>
+<p><strong>Coordinated disclosure.</strong> Vulnerabilities in PROACTIVE or SentinelOS should be reported to <code>security@coreyalejandro.com</code>. 90-day disclosure window from confirmation.</p>
+<p><strong>Evasion bounty.</strong> A flat $500 bounty per novel evasion path against PROACTIVE features F1–F4. Bounties are funded from the project's general budget when available; when budget is not available, the bounty is acknowledged with attribution and held until funded. See <code>/governance/bounty.md</code> for terms.</p>
+<p><strong>Out-of-scope for bounty.</strong> The documented evasion paths in Section 6 are <em>not</em> bountied. They are public.</p>
+<hr />
+<h2>10. Version history</h2>
+<ul>
+<li><strong>v1.0 (2026.05):</strong> Initial threat model. Adv-1 in-scope; Adv-2 partially in-scope; Adv-3 explicitly out-of-scope.</li>
+</ul>
+<p>A v2 candidate would include Adv-3 as in-scope conditional on a runtime-instrumentation feature set and adopt chain-of-challenge protocols to close Ev-4.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../paper.html">Paper · the CCD preprint</a> <a href="../security/provenance.html">Provenance manifest</a> <a href="../security/reader-consent.html">R-441 reader consent</a> <a href="../runtime/benchmarks.html">Benchmarks</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

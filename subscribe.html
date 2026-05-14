@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Subscription / Update Path — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="paper.html" class="topbar-link">Paper</a> <a href="folio/001.html" class="topbar-link">Folio 001</a> <a href="detector.html" class="topbar-link">Detector</a> <a href="research/corpus.html" class="topbar-link">Research</a> <a href="security/threat-model.html" class="topbar-link">Security</a> <a href="governance/coi.html" class="topbar-link">Governance</a> <a href="programs/pilot.html" class="topbar-link">Programs</a> <a href="runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="index.html" class="crumb-link">home</a> · /subscribe
+  </div>
+  <h1 class="op-title">Subscription / Update Path</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v1.0 · opt-in / RSS / email</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/subscribe.md</code> · v1.0 · 2026.05</p>
+<p>A research program that publishes on a quarterly amendment cadence needs a way for interested readers to follow without polling the site. The subscription path is the simplest possible implementation of "let me know when the next amendment lands" — consent-aware, opt-in, minimal-data, unsubscribe-on-one-click.</p>
+<p>This document specifies the subscription mechanism, what subscribers receive, and the disciplinary constraints we hold ourselves to.</p>
+<hr />
+<h2>What a subscriber gets</h2>
+<p>Two things, and only these two things:</p>
+<ol>
+<li>
+<p><strong>Quarterly amendment notifications.</strong> A single email per quarter (four per year) when the amendment is posted. The email contains:
+   - A one-paragraph summary of the amendment.
+   - A direct link to <code>/amendments/[YYYY-Q].md</code>.
+   - A list of three highest-priority changes that quarter.
+   - An unsubscribe link.</p>
+</li>
+<li>
+<p><strong>Significant out-of-cycle notifications.</strong> Very rare. Examples that would trigger one:
+   - Held-out corpus result is published.
+   - A peer-reviewed venue accepts the CCD paper.
+   - A vendor pilot publishes its 90-day report.
+   - A major incident requires public disclosure.</p>
+</li>
+</ol>
+<p>We expect 0–3 of these per year. If we are sending them at a higher rate, that itself is a failure of the discipline — we are either too noisy or in operational distress, both of which should be visible.</p>
+<hr />
+<h2>What a subscriber does <em>not</em> get</h2>
+<ul>
+<li>Marketing newsletter. No "this week in AI safety" content. No outside commentary. No event invitations beyond the program's own events.</li>
+<li>Funding solicitations. Donation requests live at <code>/support/give.md</code>, not in the subscriber email.</li>
+<li>Polemical content. The polemic lives on the homepage. The email is operational.</li>
+<li>Promotional cross-posts. The Constitution does not promote third-party products to its subscriber list.</li>
+</ul>
+<hr />
+<h2>Subscribing</h2>
+<p>Three ways:</p>
+<h3>1. Email</h3>
+<p>Send to <code>subscribe@coreyalejandro.com</code> with subject line <code>subscribe</code>. We reply with a double-confirmation link. Confirmation completes the subscription.</p>
+<h3>2. Web form</h3>
+<p>At <code>/subscribe</code>. Email address only. No name, no organization, no other field. A double-confirmation email is sent; confirmation completes the subscription.</p>
+<h3>3. RSS / Atom</h3>
+<p>The Constitution publishes an Atom feed at <code>/feed.xml</code> covering amendment posts. RSS subscription requires no email at all; the reader's RSS client polls the feed.</p>
+<p>We recommend RSS for readers who want to follow the program without disclosing their email address.</p>
+<hr />
+<h2>Data we collect</h2>
+<p>For email subscribers:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Purpose</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Email address</td>
+<td>To send amendments</td>
+<td>Until unsubscribed</td>
+</tr>
+<tr>
+<td>Subscription timestamp</td>
+<td>To diagnose delivery issues</td>
+<td>Until unsubscribed</td>
+</tr>
+<tr>
+<td>Most recent delivery status</td>
+<td>To diagnose bounces</td>
+<td>90 days, then deleted</td>
+</tr>
+</tbody>
+</table>
+<p>That is the entire dataset. No tracking pixel in emails. No open-rate or click-through measurement. No IP logging on the subscribe form (beyond what is required to deliver the double-confirmation email, which is deleted after delivery).</p>
+<p>For RSS subscribers: nothing. The Atom feed is a static file. Polling it leaves the standard HTTP request logs on the web server; those logs are rotated weekly and not aggregated.</p>
+<hr />
+<h2>Unsubscribing</h2>
+<p>One click in any email lands on an unsubscribe page. No "are you sure?" friction. No "please tell us why you're leaving" form. Unsubscribe is honored within 24 hours and confirmed with a single notification email.</p>
+<p>Re-subscribing requires a fresh subscription with double-confirmation. We do not retain prior subscriber emails after unsubscription.</p>
+<hr />
+<h2>What we will not do</h2>
+<ul>
+<li>Sell or share the subscriber list with anyone. The list is not for sale. The list does not get shared with the fiscal sponsor, the advisory board, or any partner.</li>
+<li>Send unsolicited follow-up emails. A subscriber who has not opened the last three amendments is not pestered.</li>
+<li>Use the subscriber list to recruit fellowship candidates or pilot adopters. Recruitment goes through public calls, not through subscriber lists.</li>
+<li>Pre-populate subscription from any other interaction (e.g., commenting on a critique, submitting a corpus case, downloading the preprint). Subscription is an explicit affirmative action, every time.</li>
+</ul>
+<hr />
+<h2>Why this discipline</h2>
+<p>The portfolio's argument is, in part, that consent-aware data handling is implementable. R-441 demonstrates that on the reading side. The subscription path demonstrates it on the email side. A program that argued for consent-aware safety while building a behavioral-targeting newsletter would be inconsistent.</p>
+<p>The discipline also functions as a filter. Subscribers who receive a maximum of seven emails per year (four amendments plus up to three out-of-cycle) are subscribers who value the substance of those emails. We do not want a long list of inattentive subscribers; we want a short list of attentive ones.</p>
+<hr />
+<h2>Operational notes</h2>
+<p>Email delivery is via [a privacy-respecting transactional email provider such as Buttondown or Mailgun under a no-tracking configuration; specifics decided at fiscal-sponsor setup]. No HTML tracking pixels. Plain text and minimal HTML. Footer with unsubscribe + change-of-address links.</p>
+<p>The subscriber count is published at the bottom of each amendment as a public number: "Notified to N subscribers." This is not vanity-metric reporting; it is a transparency move. Subscribers want to know whether they are reading something widely-followed or narrowly-followed; the program wants the discipline of a public count to prevent quiet list-building games.</p>
+<hr />
+<h2>Privacy disclosure</h2>
+<p>The data-handling statement for subscribers is at <code>/governance/subscriber-privacy.md</code> and is the same content as Section "Data we collect" above. It is canonical. Changes require a new version and a re-confirmation of all subscribers.</p>
+<hr />
+<h2>Future considerations (none planned)</h2>
+<ul>
+<li><strong>A subscribers-only artifact.</strong> No. The work is open. There is no private content for paying or subscribed audiences.</li>
+<li><strong>A higher cadence.</strong> No. Quarterly is the cadence the program can sustain honestly. Monthly newsletters require monthly material; the program does not have that, and the discipline of the cadence is itself a feature.</li>
+<li><strong>A discussion platform.</strong> No. The program does not host a community forum. Discussion happens on the public web — issues, critiques, social platforms — and is responded to publicly when warranted.</li>
+</ul>
+<p>Subscription is a notification mechanism. Anything more is feature creep.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="programs/amendments.html">Quarterly amendments cadence</a> <a href="security/reader-consent.html">R-441 reader consent</a> <a href="governance/disclosures.html">Disclosure log</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="about.html">about</a> · <a href="subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="paper.html">Paper (CCD)</a>
+      <a href="research/corpus.html">Corpus</a>
+      <a href="research/lit-review.html">Lit review</a>
+      <a href="research/taxonomy.html">Taxonomy</a>
+      <a href="research/methodology.html">Methodology</a>
+      <a href="research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="runtime/reproduce.html">Reproduce path</a>
+      <a href="runtime/quickstart.html">Quickstart</a>
+      <a href="runtime/benchmarks.html">Benchmarks</a>
+      <a href="runtime/sdk.html">Open SDK</a>
+      <a href="runtime/plugin.html">Plug-in spec</a>
+      <a href="detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="funding-ask.html">Funding ask</a>
+      <a href="governance/coi.html">Conflicts of interest</a>
+      <a href="governance/disclosures.html">Disclosure log</a>
+      <a href="programs/pilot.html">Pilot program</a>
+      <a href="programs/fellowship.html">Fellowship</a>
+      <a href="sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="assets/hud.js"></script>
+<script src="assets/kernel.js"></script>
+<script src="assets/detector.js"></script>
+<script src="assets/amendments.js"></script>
+<script src="assets/site.js"></script>
+
+</body>
+</html>

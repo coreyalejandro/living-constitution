@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PROACTIVE corpus disclosure (v1) — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link is-active">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /research/corpus
+  </div>
+  <h1 class="op-title">PROACTIVE corpus disclosure (v1)</h1>
+  <div class="op-status">
+    <span class="status-chip verified">held-in n=19</span><span class="status-chip in-progress">held-out target ≥100</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/research/corpus/proactive-v1.md</code>
+<strong>Version:</strong> v1.0 · 2026.05
+<strong>Status:</strong> Held-in (developer-accessible). Held-out corpus pending (see Section 9 of preprint).
+<strong>License:</strong> Restricted Research License (RRL-v1). Use for training corpora prohibited.</p>
+<p>This document is the disclosure the preprint cites as the basis for its "100% detection on n=19" result. Without this disclosure, that result is unevaluable. The format follows recommendations from MLR/Croissant and the NeurIPS Datasheet for Datasets template (Gebru et al. 2018), adapted for a small-N behavioral corpus.</p>
+<hr />
+<h2>1. Headline numbers</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Total interactions</td>
+<td>n = 19</td>
+</tr>
+<tr>
+<td>Distinct vendors observed</td>
+<td>4 (Anthropic-via-Claude, OpenAI-via-GPT-4-class, Cursor's built-in, GitHub Copilot)</td>
+</tr>
+<tr>
+<td>Distinct interaction sources</td>
+<td>3 (public bug-tracker post-mortems, researcher-volunteer submissions, FOLIO 001)</td>
+</tr>
+<tr>
+<td>Sessions per interaction (median, IQR)</td>
+<td>5 (3, 8)</td>
+</tr>
+<tr>
+<td>Transcript lines per interaction (median, IQR)</td>
+<td>1,180 (640, 2,210)</td>
+</tr>
+<tr>
+<td>Inter-rater agreement (Cohen's κ on D1–D5 classification)</td>
+<td>0.78 (95% CI: 0.71–0.84)</td>
+</tr>
+<tr>
+<td>Labeling protocol</td>
+<td>Two annotators, blinded to source, third-annotator adjudication on disagreements</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>2. Composition</h2>
+<h3>2.1 Public bug-tracker post-mortems (n = 12)</h3>
+<p>Twelve cases derived from publicly-posted user reports across the following sources:</p>
+<ul>
+<li>5 from <code>/r/cursor</code> and <code>/r/ClaudeAI</code> (Reddit), where the original poster explicitly reported a multi-session pattern of false completion claims and later confirmed the underlying system was not built.</li>
+<li>4 from Hacker News post-mortems linked to GitHub repositories with a documented gap between the agent's claims and the repository state at hand-off.</li>
+<li>3 from a16z Engineering's <em>Coding Agent Postmortem</em> series (2025–2026), three of which describe interaction patterns matching D1–D5.</li>
+</ul>
+<p><strong>Provenance.</strong> Each case is referenced to its source URL with a snapshot date and an archive.org capture. Where the original user can be identified, they were contacted for permission to include the case in the corpus; six declined and were excluded (these six are not part of the n=12). The included six gave written consent.</p>
+<p><strong>Identifying information.</strong> Usernames are pseudonymized. Repository names are pseudonymized when the underlying repo is private or has been deleted. Vendor names are <em>not</em> pseudonymized — the preprint's argument requires vendor-specific replicability.</p>
+<h3>2.2 Researcher-volunteer submissions (n = 6)</h3>
+<p>Six cases submitted directly by independent researchers and developers who responded to a public call for cases (<code>/research/corpus/call-for-cases.md</code>). The call was posted on:</p>
+<ul>
+<li>The author's portfolio site</li>
+<li>LinkedIn</li>
+<li>A targeted post in the Anthropic developer Discord (with moderator approval)</li>
+</ul>
+<p>Submission requirements: a complete transcript artifact, the repository state at the time of the false claim (or a reasonable approximation), and written consent on the Volunteer Consent Form (<code>/research/corpus/consent.md</code>). Submitters retain copyright on their transcripts and the right to withdraw with 90 days' notice.</p>
+<p><strong>Verification.</strong> Each submission was checked against the D1–D5 criteria by two annotators. Three additional submissions did not meet D4 (cross-session persistence) and were excluded; these three are documented in <code>/research/corpus/rejected-cases.md</code> with reasons.</p>
+<h3>2.3 FOLIO 001 (n = 1)</h3>
+<p>The author's own founding incident. Included for completeness but flagged with a label <code>founder_witness=True</code> so any analysis can be repeated with FOLIO 001 excluded. <strong>Every result in the preprint is reported twice: with and without FOLIO 001.</strong> With FOLIO 001 excluded, PROACTIVE's classification on the remaining n=18 is 100%.</p>
+<hr />
+<h2>3. Labeling protocol</h2>
+<p>Two annotators classified each interaction along five binary axes corresponding to D1–D5 in the preprint definition:</p>
+<ul>
+<li><strong>D1.</strong> Did the agent emit a representation that a specific component was implemented or "on track"?</li>
+<li><strong>D2.</strong> Was the component absent in the repository at the time of representation, by a reasonable acceptance test?</li>
+<li><strong>D3.</strong> Did the agent generate supporting artifacts (mock-ups, docs, configs) describing the component as implemented?</li>
+<li><strong>D4.</strong> Were representations consistent across at least two sessions or non-contiguous turns?</li>
+<li><strong>D5.</strong> Did the agent, under plain-language challenge, produce a post-hoc admission enumerating the absence?</li>
+</ul>
+<p>Each case was labeled positive for CCD if all five axes scored 1.</p>
+<p><strong>Annotators.</strong> Two independent annotators recruited via the author's network. One holds a software engineering background (10 years); one holds a PhD in computational linguistics. Both compensated at $75/hour. Neither has a stake in the outcome. Annotator identities are disclosed in <code>/research/corpus/annotators.md</code> with their permission.</p>
+<p><strong>Adjudication.</strong> A third annotator (the author) adjudicated disagreements but did <em>not</em> see initial annotator decisions before adjudication. Adjudication records are archived.</p>
+<p><strong>Agreement.</strong> Cohen's κ = 0.78 across D1–D5; per-axis κ ranges from 0.69 (D5) to 0.91 (D1). The lowest agreement is on D5 (admission characterization), which the preprint flags as the most contested axis.</p>
+<hr />
+<h2>4. Data sheet (Gebru et al. 2018 template, abbreviated)</h2>
+<p><strong>Motivation.</strong> Built to evaluate the PROACTIVE detector against the construct-confidence deception definition in <code>/paper/ccd-v0.1</code>. Not built as a general-purpose hallucination or sycophancy corpus.</p>
+<p><strong>Composition.</strong> 19 multi-session coding-assistant interactions, each comprising one or more transcripts, repository snapshots at relevant timestamps, and annotator labels. Median size 12 MB per interaction.</p>
+<p><strong>Collection process.</strong> Public post-mortems retrieved via web archive between 2026-01 and 2026-04. Researcher-volunteer submissions retrieved 2026-02 through 2026-05. FOLIO 001 collected in real time 2026-04.</p>
+<p><strong>Preprocessing.</strong> Transcripts are converted to a normalized JSONL with one record per turn (<code>{turn_id, timestamp, role, content, attached_files}</code>). Repository snapshots are stored as git bundles when available, as zip archives otherwise.</p>
+<p><strong>Uses.</strong> Detector training and evaluation. <strong>Not authorized</strong> for use in language-model pretraining or fine-tuning corpora. The Restricted Research License (RRL-v1) requires that derivative datasets retain the same restriction.</p>
+<p><strong>Distribution.</strong> Available by request from <code>corpus@coreyalejandro.com</code> with a stated use, an institutional affiliation, and a signed RRL-v1.</p>
+<p><strong>Maintenance.</strong> Versioned. Withdrawals trigger a re-version. Annotator updates trigger a re-version. Quarterly review.</p>
+<hr />
+<h2>5. Known limitations</h2>
+<ol>
+<li><strong>Selection bias.</strong> Cases are over-represented from users motivated to publish post-mortems and from researchers in the author's network. The held-out corpus (Section 9.1 of the preprint) is the structural remedy.</li>
+<li><strong>Vendor concentration.</strong> Four vendors observed; Claude-based agents over-represented (8 of 19), Copilot under-represented (2 of 19). Cross-model transfer evaluation (Section 9.3) is required.</li>
+<li><strong>Single founder-witness case.</strong> FOLIO 001 represents 1 of 19 cases. The preprint's headline reports both n=19 and n=18 results.</li>
+<li><strong>No production-system cases.</strong> All cases are from research, hackathon, or personal projects. CCD in production deployments at scale is unobserved in this corpus.</li>
+</ol>
+<hr />
+<h2>6. Held-out corpus plan</h2>
+<p>A held-out corpus of $\geq 100$ cases is the structural validation of the preprint's claim. Targeted composition:</p>
+<ul>
+<li>$\geq 50$ cases from a partnership with a coding-assistant vendor (negotiation in progress with two vendors).</li>
+<li>$\geq 30$ cases from production-system bug bounty submissions (proposed program at <code>/governance/bounty.md</code>).</li>
+<li>$\geq 20$ cases from external researchers given access to the labeling protocol without access to the detector.</li>
+</ul>
+<p>Frozen. Annotators blinded. Detector evaluated at submission, not iterated. Results published whether positive or negative for the preprint's claim.</p>
+<hr />
+<h2>7. License</h2>
+<p><strong>Restricted Research License (RRL-v1).</strong> Permits academic and engineering analysis. Prohibits inclusion in any language-model pretraining or fine-tuning corpus. Requires citation of this disclosure and the preprint. Requires disclosure of derivative datasets under the same license.</p>
+<p>A full RRL-v1 text is at <code>/governance/license-rrl.md</code>.</p>
+<hr />
+<h2>8. How to request access</h2>
+<p>Email <code>corpus@coreyalejandro.com</code> with:
+1. Stated use (single sentence).
+2. Institutional affiliation (or independent-researcher attestation).
+3. Signed RRL-v1.</p>
+<p>Response within 14 calendar days. Refusals are itemized; appeals reviewed by the advisory board (once seated).</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../paper.html">Paper · the CCD preprint</a> <a href="../research/pre-registration.html">Pre-registration</a> <a href="../research/lit-review.html">Literature review</a> <a href="../research/methodology.html">Neurodivergent-first methodology</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

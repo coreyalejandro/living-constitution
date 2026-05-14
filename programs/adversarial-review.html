@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Adversarial Review Track — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link is-active">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /research/adversarial-review
+  </div>
+  <h1 class="op-title">The Adversarial Review Track</h1>
+  <div class="op-status">
+    <span class="status-chip in-progress">standing program · funded honoraria</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/research/adversarial-review.md</code> · v1.0 · 2026.05</p>
+<p>The portfolio takes a publicly antagonistic stance toward institutional AI safety. The Adversarial Review Track is the operational counter-move: invite the most credible critics in the field — including the institutions the homepage criticizes — to red-team the work, publish their critiques on this site, and pay them for their time. This converts the antagonism from a liability into a credibility-building mechanism.</p>
+<p>A critic whose critique is published <em>on the site they criticize</em>, alongside the response, with attribution, is harder to dismiss than a critic whose disagreement remains a tweet.</p>
+<hr />
+<h2>What the Adversarial Review Track is</h2>
+<p>A standing program of paid invitations to named reviewers to write a structured critique of:</p>
+<ol>
+<li>The CCD construct as defined in the preprint.</li>
+<li>The held-in corpus and its labeling protocol.</li>
+<li>The PROACTIVE detector and its feature definitions.</li>
+<li>The threat model and the documented evasion paths.</li>
+<li>The methodology paper (neurodivergent-first safety).</li>
+<li>The polemical framing of the portfolio.</li>
+</ol>
+<p>Each reviewer addresses one (or more) of the six. Their critique is published verbatim on <code>/critiques/[reviewer]/</code>. The author writes a response published below the critique. The critique is <em>not</em> edited for the response; it is left intact.</p>
+<hr />
+<h2>Why pay reviewers</h2>
+<p>A free critique is an unpaid favor. The work asks reviewers to spend hours engaging with a portfolio they may already be skeptical of. Compensation acknowledges the value of their time and converts the relationship from "asking for a favor" to "purchasing rigorous critique."</p>
+<p><strong>Honorarium structure:</strong>
+- $1,500 per accepted critique of 1,000+ words.
+- $3,000 per accepted comprehensive critique of 3,000+ words covering 2+ of the six surfaces.
+- Bonus $1,000 if the critique surfaces a falsifier we had not anticipated.</p>
+<p>A reviewer who would not accept honoraria for ethical or institutional reasons is offered the option of directing the honorarium to a charity of their choice, which we then publicly fund in their name.</p>
+<hr />
+<h2>How critiques are solicited</h2>
+<h3>Round 1 — Initial outreach (weeks 1–8)</h3>
+<p>8 invitations to:
+- 2 named AI-safety researchers from major labs (Anthropic, OpenAI, DeepMind, or independent equivalents).
+- 2 named academics with peer-reviewed work in sycophancy, deception, or alignment.
+- 1 named open-source engineer with shipping experience in detection systems.
+- 1 named disability-justice scholar to critique the methodology paper.
+- 1 named former coding-assistant product lead to critique the threat model from a vendor-engineering perspective.
+- 1 named journalist or science writer whose published work has critiqued AI safety institutions, to address the polemic.</p>
+<h3>Round 2 — Public call (weeks 9–16)</h3>
+<p>A public call published on the site, on LinkedIn, on Mastodon. Any reviewer with relevant credentials (defined operationally as: a published paper, a shipped detector, a public review of an adjacent work, or a peer attestation) may submit a critique. Submissions undergo a single round of editorial review for clarity (not for substance). Accepted submissions receive the honorarium.</p>
+<h3>Round 3 — Standing track</h3>
+<p>After Round 2, the site accepts adversarial critiques on a rolling basis. Honoraria budget capped at $20,000 per year initially; expandable with funding.</p>
+<hr />
+<h2>What we publish</h2>
+<p>For each accepted critique:</p>
+<ol>
+<li><strong>The critique itself</strong>, verbatim, with the reviewer's name (or, with their explicit consent, anonymized).</li>
+<li><strong>The author's response</strong>, with no edit of the critique.</li>
+<li><strong>A status field</strong>: "open" (response pending), "responded" (response published), "amended" (a portfolio artifact changed in response), "outstanding disagreement" (response published; the critic still disagrees).</li>
+<li><strong>Any artifact changes triggered by the critique</strong>, with explicit reference to the critique.</li>
+</ol>
+<p>Each critique gets its own URL slug. The full critique list is at <code>/critiques/index.md</code>.</p>
+<hr />
+<h2>What we do not publish</h2>
+<ul>
+<li>Critiques the reviewer specifically asks not to publish. (Honorarium still paid; we keep the work.)</li>
+<li>Critiques that include unredacted personally-identifying information about anyone other than the public-figure author.</li>
+<li>Critiques that contain libel against third parties.</li>
+<li>Critiques that the reviewer subsequently retracts in writing.</li>
+</ul>
+<p>Disagreements between the author and the reviewer over editorial questions are themselves published, with the reviewer's preferred resolution recorded.</p>
+<hr />
+<h2>Standard critique brief (sent with invitation)</h2>
+<blockquote>
+<p>Thank you for accepting the adversarial review invitation. The package below contains:</p>
+<ul>
+<li>The preprint (<code>/paper/ccd-v0.1.pdf</code>)</li>
+<li>The literature review (<code>/research/lit-review.md</code>)</li>
+<li>The corpus disclosure (<code>/research/corpus/proactive-v1.md</code>)</li>
+<li>The pre-registration (<code>/research/pre-registration-v1.md</code>)</li>
+<li>The threat model (<code>/security/threat-model.md</code>)</li>
+<li>The methodology paper (<code>/research/methodology/neurodivergent-first.md</code>)</li>
+<li>The conflict-of-interest statement (<code>/governance/coi.md</code>)</li>
+</ul>
+<p>We are asking you to write a critique of any subset of the above. Suggested structure: state the strongest objection you have, in your own register; back the objection with evidence (citations, counterexamples, structural arguments); state what response we could give that would change your mind. The response section is important — it converts a critique into a productive falsifier.</p>
+<p>We will publish your critique verbatim. We will write a response and publish it below. We will not edit your critique. If we believe your critique requires amending one of our artifacts, we will amend it and acknowledge the amendment explicitly.</p>
+<p>The honorarium is $1,500 for critiques over 1,000 words, $3,000 for comprehensive critiques over 3,000 words covering multiple surfaces, and a $1,000 bonus for surfacing a falsifier we had not anticipated.</p>
+<p>Drafts due in 6 weeks. Send to <code>critique@coreyalejandro.com</code>.</p>
+</blockquote>
+<hr />
+<h2>What we hope the track produces</h2>
+<p>Three outcomes, in order of likelihood and value:</p>
+<ol>
+<li><strong>Visible critique on the site, signed by named reviewers.</strong> Even without amendment, the existence of named critiques on the site converts the polemic from "the author against the field" to "the author within the field, disagreeing publicly."</li>
+<li><strong>Falsifiers we had not anticipated.</strong> These trigger artifact amendments and bonus honoraria. They are the highest-value outcome.</li>
+<li><strong>Concrete revisions</strong> to the construct definition, the threat model, the methodology, or the corpus protocol. These improve the work.</li>
+</ol>
+<p>A <em>fourth</em> outcome — every reviewer endorses every claim — would itself be a red flag. We do not expect or seek it.</p>
+<hr />
+<h2>What this track is not</h2>
+<ul>
+<li>Not peer review. Peer review is structured around publication acceptance; this track is structured around publication amendment.</li>
+<li>Not endorsement-seeking. Reviewers are paid to disagree. Endorsement is an unintended by-product, not a goal.</li>
+<li>Not a backdoor for selecting critics whose critiques the author can easily rebut. Outreach prioritizes reviewers known to disagree with the author's framing.</li>
+</ul>
+<p>The track is the author's bet that the work is robust enough to invite hostile review and remain standing. If the bet is wrong, the critique that breaks the bet will be on this site.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../objections.html">Reviewer objections, addressed</a> <a href="../governance/coi.html">Conflict of interest</a> <a href="../programs/amendments.html">Quarterly amendments cadence</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

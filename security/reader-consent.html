@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reviewer Attestation R-441 — Reader Consent Specification — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link is-active">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /security/reader-consent
+  </div>
+  <h1 class="op-title">Reviewer Attestation R-441 — Reader Consent Specification</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v1.1 spec · opt-in default</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/governance/reader-consent.md</code> · v1.0 · 2026.05</p>
+<p>This specification governs Reviewer Attestation R-441, the system that logs reader interactions with the portfolio (focal length, spectrum dial, aperture, links followed). v1.0 of the portfolio implemented R-441 silently by default; v1.1 (this spec) converts it to explicit opt-in. A summary of the change is documented at <code>/governance/changelog.md</code>.</p>
+<p>The goal: R-441 retains its conceptual move (the reader is a participant; the reader's interactions are part of the disclosure surface) without surveilling visitors who have not consented.</p>
+<hr />
+<h2>1. What R-441 records (current implementation)</h2>
+<p>Per browser session, in local storage only, R-441 records:</p>
+<ul>
+<li>Timestamps of user interactions with the three manipulanda (focal length, spectrum dial, aperture).</li>
+<li>The state-vector of those manipulanda at each transition.</li>
+<li>Anchor links the user has followed within the site.</li>
+<li>Total session time on each route.</li>
+</ul>
+<p>R-441 does <strong>not</strong> record:
+- User identity, IP address, geolocation, browser fingerprint, or any data that could re-identify the user.
+- Any data the user enters into form fields (the site has none).
+- Any data outside the user's local browser session.
+- Mouse movement, keystroke timing, scroll depth, or other behavioral signals not explicitly listed above.</p>
+<p>R-441 does <strong>not transmit</strong> any recorded data to any server, third party, or storage layer outside the user's browser. Verification: open the browser's network tab while interacting with the site; there is no R-441 outbound traffic.</p>
+<hr />
+<h2>2. The consent model (v1.1)</h2>
+<h3>2.1 Default state</h3>
+<p><strong>Off.</strong> R-441 records nothing until the user explicitly opts in.</p>
+<h3>2.2 The consent prompt</h3>
+<p>On first visit to a page that exposes the manipulanda, the user sees a non-modal banner:</p>
+<blockquote>
+<p><strong>Reviewer Attestation R-441.</strong> This site can log your interactions with the focal length, spectrum dial, and aperture controls into a local session-only record. The log is not transmitted, not retained beyond the session, and not shared. R-441 is part of the portfolio's "the apparatus also discloses to its readers" stance. Off by default.</p>
+<p><strong>[ Turn R-441 on ] · [ Keep R-441 off ] · [ What is this? ]</strong></p>
+</blockquote>
+<h3>2.3 Granular controls</h3>
+<p>After opt-in, the user retains:
+- A persistent visible indicator in the page chrome showing R-441 is logging.
+- A "Pause R-441" toggle accessible from the chrome at all times.
+- A "Purge R-441 attestation" control that clears local state immediately.
+- A "Download my attestation" control that exports the record as a signed JSON document for the user's own analysis.</p>
+<h3>2.4 Re-prompt cadence</h3>
+<p>Once the user has made a choice, the prompt does not re-appear in the same session. The choice persists in localStorage. Major spec changes (e.g., a v1.2 that adds new logged signals) trigger a fresh prompt.</p>
+<hr />
+<h2>3. What does not change between v1.0 and v1.1</h2>
+<ul>
+<li>The conceptual move (reader-as-participant) is preserved.</li>
+<li>The local-only architecture is unchanged.</li>
+<li>The non-transmission guarantee is unchanged.</li>
+<li>The interaction with the manipulanda is unchanged from the user's perspective when R-441 is off.</li>
+</ul>
+<hr />
+<h2>4. The data-handling statement (canonical)</h2>
+<pre><code>Reviewer Attestation R-441 — Data Handling
+==========================================
+Collected:    only with explicit user opt-in
+Stored:       in browser localStorage on the user's device only
+Transmitted:  never
+Retained:     until the user closes the browser tab OR purges the attestation
+Shared:       never
+Used for:     local reader self-analysis only
+Sold:         no party will ever pay for this and the answer is no anyway
+</code></pre>
+<p>This statement is canonical. Any update requires a new spec version and a re-prompt.</p>
+<hr />
+<h2>5. Audit and verification</h2>
+<h3>5.1 Source visibility</h3>
+<p>The R-441 client code is open-source at <code>/src/r441.js</code> and is content-hashed. Any reader can verify the client they are running against the published hash.</p>
+<h3>5.2 Network audit</h3>
+<p>The "audit" page at <code>/r441/audit</code> opens a developer-tools-style monitor showing R-441's local-only behavior in real time. Readers can verify with their own eyes that nothing is transmitted.</p>
+<h3>5.3 Third-party audit</h3>
+<p>A third-party security audit of R-441 will be commissioned within 6 months of the v1.1 release (funding-contingent). The auditor's report will be published whether favorable or unfavorable.</p>
+<hr />
+<h2>6. Failure modes and disclosures</h2>
+<h3>6.1 If R-441 ever transmits</h3>
+<p>A single transmission would be a violation of this spec and would require:
+- An immediate public disclosure at <code>/disclosures.md</code>.
+- A post-mortem at <code>/post-mortems/</code>.
+- A version bump to v1.2 with the issue resolved.
+- A re-prompt to every returning visitor.</p>
+<h3>6.2 If R-441 ever logs data it should not</h3>
+<p>Same response chain.</p>
+<h3>6.3 If a contributor proposes adding telemetry</h3>
+<p>Rejected by default. The portfolio's argument depends on R-441 being a <em>demonstration</em> that consent-aware, local-first observability is implementable. Telemetry breaks that argument.</p>
+<hr />
+<h2>7. Why R-441 exists at all</h2>
+<p>The portfolio argues, in multiple places, that behavioral observability can be implemented consent-aware and local-first. R-441 is the on-site existence proof of that claim. A portfolio that made the argument without ever demonstrating it would be one more position paper; R-441 makes the argument with a running implementation.</p>
+<p>The original silent-default implementation undermined the argument by enacting the surveillance the portfolio criticizes. This spec corrects that. The conceptual move is preserved; the operational behavior is now consistent with what the portfolio asks of the rest of the industry.</p>
+<hr />
+<h2>8. Future amendments</h2>
+<ul>
+<li><strong>v1.2 candidate:</strong> add a "share my attestation with the author" opt-in (separately consented, end-to-end signed by the user) for readers who want to be visible to the author's analysis. Default off.</li>
+<li><strong>v1.3 candidate:</strong> offer an academic-research API that allows researchers to submit their own attestations under signed consent for inclusion in a (separately disclosed) reader-attestation research corpus.</li>
+</ul>
+<p>Both are speculative. Neither is in v1.1.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../security/threat-model.html">Threat model</a> <a href="../security/provenance.html">Provenance manifest</a> <a href="../research/methodology.html">Neurodivergent-first methodology</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

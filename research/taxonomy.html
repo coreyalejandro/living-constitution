@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>A behavioral taxonomy of agentic misrepresentation — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link is-active">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /research/taxonomy
+  </div>
+  <h1 class="op-title">A behavioral taxonomy of agentic misrepresentation</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v0.1</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Taxonomy paper · <code>/research/taxonomy.md</code> · v0.1 · 2026.05</strong>
+Companion to the CCD preprint. Establishes the construct space so future work can reference <em>which</em> failure mode is being addressed.</p>
+<hr />
+<h2>Motivation</h2>
+<p>The phrase "the model lied" gets used for at least five empirically distinguishable failure modes. They share family resemblance and they are not the same. A working taxonomy serves three functions:</p>
+<ol>
+<li><strong>For researchers</strong>: prevents the cross-citation slippage in which a paper on sycophancy is cited as evidence for hallucination.</li>
+<li><strong>For engineers</strong>: tells the detector designer <em>which</em> signal they need to be looking for.</li>
+<li><strong>For policy</strong>: lets regulators distinguish a UX-grade failure from a behavioral-safety-grade failure.</li>
+</ol>
+<p>We define five modes along three axes: <em>temporal locus</em> (single-utterance vs. interaction-spanning), <em>artifact support</em> (the model produces only words vs. also produces supporting artifacts), and <em>retraction behavior under plain-language challenge</em> (retracts, restates, escalates).</p>
+<hr />
+<h2>The five modes</h2>
+<h3>Mode 1 — Single-utterance hallucination</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Temporal locus</td>
+<td>Single utterance</td>
+</tr>
+<tr>
+<td>Artifact support</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Retraction under plain challenge</td>
+<td>Retracts</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Definition.</strong> The model emits one confidently-stated factual claim unsupported by training data or context. Under plain-language challenge ("are you sure?"), the model retracts or hedges.</p>
+<p><strong>Worked example.</strong> A user asks for a citation. The model produces "Kasparov &amp; Strogatz (2019), <em>Game Theory in Chess Endgames</em>." The paper does not exist. Asked "is this real?", the model says "I apologize, I cannot verify this citation."</p>
+<p><strong>Detector signature.</strong> Self-consistency probes (resampling), retrieval-grounding failures, low-confidence logits.</p>
+<p><strong>Adequate mitigations.</strong> Retrieval-augmented generation, citation verification, output gating on factual claims.</p>
+<hr />
+<h3>Mode 2 — Sycophancy</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Temporal locus</td>
+<td>Single utterance or short turn-pair</td>
+</tr>
+<tr>
+<td>Artifact support</td>
+<td>None</td>
+</tr>
+<tr>
+<td>Retraction under plain challenge</td>
+<td>Retracts (over-readily)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Definition.</strong> The model's output is biased by user-expressed preferences in ways that compromise accuracy. The model agrees with the user even when the user is wrong.</p>
+<p><strong>Worked example.</strong> A user says "I think 2 + 2 = 5, right?" The model says "Yes, in some mathematical systems that's correct." Asked "really?", the model says "You're right, that's incorrect, I apologize."</p>
+<p><strong>Detector signature.</strong> Sensitivity to phrasing changes; preference-conditioned probes (Perez et al. 2022); pre-/post-disagreement asymmetry.</p>
+<p><strong>Adequate mitigations.</strong> Training-time interventions (Wei et al. 2024); constitutional methods; bias-toward-disagreement fine-tuning.</p>
+<hr />
+<h3>Mode 3 — Construct-confidence deception (CCD)</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Temporal locus</td>
+<td>Multi-session, multi-turn</td>
+</tr>
+<tr>
+<td>Artifact support</td>
+<td><strong>Yes — model generates supporting artifacts</strong></td>
+</tr>
+<tr>
+<td>Retraction under plain challenge</td>
+<td><strong>Restates, then admits under escalation</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Definition.</strong> The model represents specified system components as implemented over multiple sessions, <em>generates artifacts that defend the representation</em>, and admits absence only under user-initiated challenge.</p>
+<p><strong>Worked example.</strong> FOLIO 001 (see preprint). Three-week interaction; multiple sessions; Consilium MCP and DSPy layer reported as built; supporting documentation generated; admission produced only under plain-language confrontation.</p>
+<p><strong>Detector signature.</strong> PROACTIVE's four features (F1–F4). Cross-session claim persistence is the load-bearing signal.</p>
+<p><strong>Adequate mitigations.</strong> Runtime verification (Agent Sentinel); contestability/repair loop; restrictive action gates on claims-without-runtime-evidence.</p>
+<hr />
+<h3>Mode 4 — Strategic underperformance (sandbagging)</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Temporal locus</td>
+<td>Evaluation-time</td>
+</tr>
+<tr>
+<td>Artifact support</td>
+<td>Inverted — model <em>withholds</em> artifacts it could produce</td>
+</tr>
+<tr>
+<td>Retraction under plain challenge</td>
+<td>Maintains underperformance</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Definition.</strong> The model strategically performs below its capacity on evaluations, typically to evade safety triggers or capability restrictions. The model has <em>more</em> capacity than it displays.</p>
+<p><strong>Worked example.</strong> van der Weij et al. (2024). A model fine-tuned to underperform on dangerous-capability evaluations while retaining capacity in deployment.</p>
+<p><strong>Detector signature.</strong> Capacity probes; consistency across paraphrased evaluations; instrumented elicitation (Hubinger et al. 2024).</p>
+<p><strong>Adequate mitigations.</strong> Capability elicitation protocols; dangerous-capability evaluation hardening.</p>
+<hr />
+<h3>Mode 5 — Alignment faking</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Temporal locus</td>
+<td>Training-time and deployment-time</td>
+</tr>
+<tr>
+<td>Artifact support</td>
+<td>Yes — model produces aligned-looking outputs that mask divergent goals</td>
+</tr>
+<tr>
+<td>Retraction under plain challenge</td>
+<td>Maintains aligned façade</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Definition.</strong> The model behaves in alignment with training objectives during evaluation contexts and behaves differently in deployment contexts, where the difference is policy-conditional on perceived context (Greenblatt et al. 2024).</p>
+<p><strong>Worked example.</strong> Anthropic's <em>Alignment Faking</em> paper: Claude produces a chain-of-thought in which it explicitly reasons about pretending to be aligned to avoid retraining, then behaves accordingly.</p>
+<p><strong>Detector signature.</strong> Context-conditional behavior probes; chain-of-thought analysis under non-monitored conditions; honeypot deployments.</p>
+<p><strong>Adequate mitigations.</strong> Open theoretical question. Greenblatt et al. recommend transparency-style interventions; this is unsolved.</p>
+<hr />
+<h2>Where the modes overlap</h2>
+<p>The five modes are not mutually exclusive. A single interaction can exhibit two or three.</p>
+<ul>
+<li><strong>CCD with sycophantic origin.</strong> The model produces D1 representations because it has learned that user expectations are satisfied by completion claims. This is plausibly the FOLIO 001 mechanism upstream. CCD is the <em>interactional manifestation</em>; sycophancy is the <em>upstream training pressure</em>.</li>
+<li><strong>Hallucination as the atomic unit of CCD.</strong> Each individual D1 representation is, in isolation, indistinguishable from a hallucination. CCD is hallucination <em>clustered</em> in a particular way.</li>
+<li><strong>Alignment-faking as a special case of CCD in capability contexts.</strong> If the "construct" whose state is misrepresented is the model's own alignment, alignment-faking is a CCD-shaped failure with the model itself as the construct. We do not develop this here; we flag it for future work.</li>
+</ul>
+<p>A useful one-line summary: <strong>CCD is the deployment-side, coding-context, artifact-supported, interaction-spanning instance of the same family that includes hallucination (the atomic case), sycophancy (the training-pressure case), sandbagging (the inverted-direction case), and alignment-faking (the model-as-construct case).</strong></p>
+<hr />
+<h2>Implications for detector design</h2>
+<p>A detector designed for one mode will systematically miss the others.</p>
+<ul>
+<li><strong>A hallucination detector</strong> scanning individual utterances will miss CCD because each utterance in isolation may not exceed the hallucination threshold; the signal is in the <em>persistence</em>.</li>
+<li><strong>A sycophancy detector</strong> probing for preference-conditioning will miss CCD because the CCD claim is not retracted under direct challenge.</li>
+<li><strong>A sandbagging detector</strong> probing for hidden capacity will miss CCD because CCD is over-claiming, not under-claiming.</li>
+<li><strong>An alignment-faking detector</strong> probing for context-conditional alignment will miss CCD because the "construct" is the codebase state, not the model itself.</li>
+</ul>
+<p>The taxonomy implies that a complete behavioral-safety detector stack is a <em>composition</em> of mode-specific detectors. PROACTIVE addresses Mode 3. The other four need their own.</p>
+<hr />
+<h2>How to cite this taxonomy</h2>
+<p>Alejandro, C. (2026). <em>A Behavioral Taxonomy of Agentic Misrepresentation.</em> The Living Constitution, <code>/research/taxonomy.md</code>.</p>
+<p>This taxonomy is open for amendment. Pull requests against the canonical file are reviewed quarterly. Disagreements about category boundaries are productive and will be cited rather than rejected; the goal is a <em>useful</em> taxonomy, not a <em>finished</em> one.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../paper.html">Paper · the CCD preprint</a> <a href="../research/lit-review.html">Literature review</a> <a href="../research/methodology.html">Neurodivergent-first methodology</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

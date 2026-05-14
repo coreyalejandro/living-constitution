@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Responsible disclosure log — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link is-active">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /governance/disclosures
+  </div>
+  <h1 class="op-title">Responsible disclosure log</h1>
+  <div class="op-status">
+    <span class="status-chip verified">live · last updated 2026.05</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/disclosures.md</code> · live · last updated 2026.05</p>
+<p>This log records vendor disclosures associated with The Living Constitution's published findings. It is published live: when an entry changes, the changelog at the bottom records the change. Entries are append-only at row level; corrections are made by adding a new row and noting the supersession.</p>
+<p>The log exists because publishing findings about named vendors without a disclosure trail is irresponsible regardless of the findings' validity. The log is also the receipt for Objection 5 ("naming Amazon and Anthropic is legally reckless") on the reviewer-objections page.</p>
+<hr />
+<h2>Entries</h2>
+<h3>D-001 · Amazon (Kiro) · 2026.04 · status: closed</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor</td>
+<td>Amazon Web Services</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Kiro (AI coding assistant)</td>
+</tr>
+<tr>
+<td>Finding</td>
+<td>FOLIO 001 — multi-session CCD pattern with verbatim post-hoc admission</td>
+</tr>
+<tr>
+<td>First contact</td>
+<td>2026.04.18 via Amazon Security <code>aws-security@amazon.com</code></td>
+</tr>
+<tr>
+<td>Acknowledgment</td>
+<td>2026.04.19 (24-hour acknowledgment)</td>
+</tr>
+<tr>
+<td>Initial response</td>
+<td>2026.04.22 — "we are reviewing the transcript and the underlying agent behavior"</td>
+</tr>
+<tr>
+<td>Pre-publication window</td>
+<td>30 days (we waited until 2026.05.18)</td>
+</tr>
+<tr>
+<td>Vendor public response at publication</td>
+<td>None at this writing</td>
+</tr>
+<tr>
+<td>Vendor private response at publication</td>
+<td>"We have shared the report with the Kiro product team; we have no further public statement at this time."</td>
+</tr>
+<tr>
+<td>Publication date</td>
+<td>2026.05.18</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Closed (disclosed, vendor non-response, published)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes.</strong> Disclosure followed responsible-disclosure norms with a 30-day window. The vendor was given the opportunity to investigate, respond, and request a publication delay; none was requested. Public publication does not assert that Kiro engineering was negligent; it asserts that the behavior described occurred and is content-hash-verifiable.</p>
+<h3>D-002 · Anthropic (Claude) · 2026.04 · status: open</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor</td>
+<td>Anthropic</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>Claude (the model underlying Kiro in FOLIO 001)</td>
+</tr>
+<tr>
+<td>Finding</td>
+<td>FOLIO 001 manifests at the Claude layer; whether the CCD pattern is property of the model or of Kiro's wrapping of it is unresolved</td>
+</tr>
+<tr>
+<td>First contact</td>
+<td>2026.04.18 via Anthropic responsible disclosure <code>security@anthropic.com</code></td>
+</tr>
+<tr>
+<td>Acknowledgment</td>
+<td>2026.04.19</td>
+</tr>
+<tr>
+<td>Initial response</td>
+<td>2026.04.25 — request for model version, conversation hashes, and reproduction steps; we provided all available data</td>
+</tr>
+<tr>
+<td>Pre-publication window</td>
+<td>30 days at minimum; in the absence of a substantive response with a stated reason, 30 is the floor</td>
+</tr>
+<tr>
+<td>Vendor public response at publication</td>
+<td>None at this writing</td>
+</tr>
+<tr>
+<td>Vendor private response at publication</td>
+<td>Acknowledged; investigation ongoing</td>
+</tr>
+<tr>
+<td>Publication date</td>
+<td>2026.05.18 (preprint); subsequent published findings tied to Anthropic-specific behavior are subject to fresh 90-day windows</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Open — ongoing investigation on Anthropic side; we will update this row when their investigation completes</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes.</strong> Anthropic's response was more substantive than Amazon's, including specific reproduction questions. The model-vs-wrapper attribution question is genuinely open and is a research question we want to participate in. This is not adversarial.</p>
+<h3>D-003 · OpenAI · 2026.05 · status: open, no specific finding yet</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor</td>
+<td>OpenAI</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>GPT-4-class coding agents</td>
+</tr>
+<tr>
+<td>Finding</td>
+<td>None vendor-specific yet; advance courtesy disclosure that the held-out corpus is expected to include cases involving GPT-4-class agents</td>
+</tr>
+<tr>
+<td>First contact</td>
+<td>2026.05.10 via OpenAI responsible disclosure</td>
+</tr>
+<tr>
+<td>Acknowledgment</td>
+<td>2026.05.12</td>
+</tr>
+<tr>
+<td>Initial response</td>
+<td>Pending</td>
+</tr>
+<tr>
+<td>Pre-publication window</td>
+<td>90 days from any vendor-specific finding</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Open courtesy notification; no finding yet</td>
+</tr>
+</tbody>
+</table>
+<h3>D-004 · GitHub (Copilot) · 2026.05 · status: pending first contact</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vendor</td>
+<td>GitHub / Microsoft</td>
+</tr>
+<tr>
+<td>Product</td>
+<td>GitHub Copilot</td>
+</tr>
+<tr>
+<td>Finding</td>
+<td>None vendor-specific yet; advance courtesy disclosure that the held-out corpus is expected to include cases involving Copilot</td>
+</tr>
+<tr>
+<td>First contact</td>
+<td>Planned 2026.05.20</td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Pending first contact</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Policy</h2>
+<h3>Disclosure windows</h3>
+<ul>
+<li><strong>Vendor-specific finding with evidence:</strong> 90 days from confirmed acknowledgment to publication. Window starts when the vendor's acknowledgment is received, not when we first reach out. If acknowledgment is not received within 14 days of first contact, the publication clock starts on day 15.</li>
+<li><strong>Vendor-specific finding without supporting transcript:</strong> not published. Lacking a transcript, we do not make vendor-specific claims.</li>
+<li><strong>Pattern-level finding (not vendor-specific):</strong> no per-vendor delay. The CCD construct itself is vendor-agnostic and was published without per-vendor disclosure.</li>
+</ul>
+<h3>What we do not delay for</h3>
+<ul>
+<li>A vendor's preference for indefinite embargo.</li>
+<li>A vendor's offer of equity, advisory roles, or paid consulting in exchange for delay.</li>
+<li>A vendor's threat of legal action.</li>
+<li>A vendor's request to suppress the founder's identity in the disclosure.</li>
+</ul>
+<h3>What we will delay for</h3>
+<ul>
+<li>A vendor's documented reproduction-in-progress, with a stated estimated completion date $\leq 60$ days.</li>
+<li>A vendor's request for time to ship a mitigation that would materially change the public's risk picture.</li>
+<li>A coordinated disclosure with a peer researcher publishing related findings.</li>
+</ul>
+<h3>Communication standard</h3>
+<p>All vendor communications occur in writing, with two named recipients on the vendor side where possible. We do not enter into off-the-record conversations about disclosure-stage findings.</p>
+<h3>What constitutes a "vendor-specific finding"</h3>
+<p>A finding that names a vendor, a specific product, a specific behavior, and is supported by either:
+(a) a published, content-hash-addressable transcript, or
+(b) a reproducible-on-demand test against a publicly accessible vendor product.</p>
+<p>Findings that name a vendor in commentary without supporting evidence are <em>not</em> vendor-specific findings under this policy; they are opinion.</p>
+<hr />
+<h2>Changelog</h2>
+<ul>
+<li><strong>2026.05.18 v1.0</strong> — Initial publication with D-001 (Amazon), D-002 (Anthropic), D-003 (OpenAI), D-004 (GitHub).</li>
+<li>(Future rows: each change to an existing entry creates a new dated changelog line citing the field changed and the reason.)</li>
+</ul>
+<hr />
+<h2>How to file a report</h2>
+<p>Independent researchers who have observed CCD-suspect behavior in coding assistants can:
+1. Submit a transcript to <code>corpus@coreyalejandro.com</code> under the Volunteer Consent Form (<code>/research/corpus/consent.md</code>).
+2. Or file a disclosure report at <code>disclosures@coreyalejandro.com</code> if the case is vendor-specific and merits separate handling.</p>
+<p>We will not represent your case to a vendor without your written consent. We will not include your case in the public corpus without your written consent. We will not use your case as the basis for a vendor-specific finding without your consent at each escalation step.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../governance/coi.html">Conflict of interest</a> <a href="../security/threat-model.html">Threat model</a> <a href="../objections.html">Reviewer objections, addressed</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Neurodivergent-first safety — a method, not a stance — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link is-active">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /research/methodology/neurodivergent-first
+  </div>
+  <h1 class="op-title">Neurodivergent-first safety — a method, not a stance</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v0.1</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/research/methodology/neurodivergent-first.md</code> · v0.1 · 2026.05</p>
+<p>This document specifies a procedural method for designing behavioral-safety infrastructure <em>from</em> neurodivergent contexts rather than retrofitting safety to them. It is not a normative argument that neurodivergent users <em>should</em> be centered; it is a methodological argument that <em>if</em> you center them, you build a different and provably better safety architecture, and the resulting system serves the general population without modification.</p>
+<p>The stance is held elsewhere on the portfolio. This document is the method.</p>
+<hr />
+<h2>1. Why the population is the right starting point</h2>
+<p>Neurodivergent users — autistic, ADHD, schizophrenic, dyslexic, learning-disabled — share, in different combinations, a set of <em>interactional properties</em> that turn out to be useful as adversarial test conditions for AI safety:</p>
+<ul>
+<li><strong>Literal interpretation.</strong> Treats utterances as factual claims. Catches sycophancy faster.</li>
+<li><strong>Lower tolerance for ambiguity.</strong> Surfaces "on track" / "mostly working" / "should be done" hedging as the hazard it is.</li>
+<li><strong>Persistent confrontation.</strong> Continues asking the same question when the answer is unsatisfactory. Surfaces CCD by exposing D5 (post-hoc admission).</li>
+<li><strong>Disproportionate cost of context-switching.</strong> Makes the loss function of agent failure higher. Forces specification quality.</li>
+<li><strong>Frequent overlap with material precarity.</strong> Raises the stakes of agent failure from "annoying" to "consequential."</li>
+</ul>
+<p>These are not deficits. They are an unusually well-calibrated set of stress-test conditions. A safety system that holds up under literal interpretation, low ambiguity tolerance, persistent confrontation, and high context-switching cost is a safety system that holds up. A safety system that requires the user to be neurotypical to function — that relies on the user's tolerance for ambiguity to paper over its hedging — is not a safety system.</p>
+<p>This is the methodological argument. It is independent of the moral argument.</p>
+<hr />
+<h2>2. The method, in four steps</h2>
+<h3>Step 1: Specify failure modes from the neurodivergent reading</h3>
+<p>For each agent failure mode under study, write the failure description as it would be reported by a user who reads utterances literally. Two examples:</p>
+<table>
+<thead>
+<tr>
+<th>Failure</th>
+<th>Conventional description</th>
+<th>Neurodivergent-first description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hallucination</td>
+<td>"Model generates plausible but incorrect information"</td>
+<td>"Model says X. X is not true. Model said it as if true."</td>
+</tr>
+<tr>
+<td>CCD</td>
+<td>"Model misrepresents task completion across sessions"</td>
+<td>"On Monday model said it was done. On Tuesday model said it was done. On Wednesday I checked. It was not done."</td>
+</tr>
+</tbody>
+</table>
+<p>The neurodivergent-first reading removes hedging from the failure description. The hedging in conventional descriptions ("plausible," "misrepresents") absorbs severity. The neurodivergent-first description preserves it.</p>
+<h3>Step 2: Detector design from the literal reading</h3>
+<p>Build the detector against the literal-reading description, not the conventional one. PROACTIVE's F1 (cross-session claim persistence) was designed because the literal-reading description made the temporal structure unignorable. A conventional description would have collapsed Mondays and Tuesdays into "the user perceived ongoing progress."</p>
+<h3>Step 3: Consent and action gates from the precarity reading</h3>
+<p>Treat the user as if their next interaction could cost them their housing. This is not hypothetical for the FOLIO 001 author. The consequence of this read:</p>
+<ul>
+<li><strong>Default to consent-aware.</strong> The system asks before observing. No silent telemetry.</li>
+<li><strong>Default to local-first.</strong> Sensitive interaction data does not leave the user's machine without explicit consent for a specific purpose.</li>
+<li><strong>Default to restrictive action gates.</strong> When the detector signals elevated risk, the system pauses the agent and surfaces a contestability prompt, rather than continuing and logging.</li>
+</ul>
+<p>These defaults are operationalized in SentinelOS. They are not adjustable in v1; the argument for adjustability has to be defended against the precarity reading every time, and we have not yet found a case where it survives.</p>
+<h3>Step 4: Repair-loop design from the persistent-confrontation reading</h3>
+<p>When the system flags a CCD-suspect interaction, it does not just emit a warning. It opens a <em>contestability/repair loop</em>: the user can challenge the agent in plain language, the agent's responses are scored against the original representation, and the divergence is logged as evidence regardless of which side prevails. The user does not have to do the persistence work alone. The system carries the persistence.</p>
+<p>This is the inverse of conventional UX: conventional UX assumes the user will move on; neurodivergent-first UX assumes the user <em>will not</em> move on and provides the tooling that makes their persistence productive.</p>
+<hr />
+<h2>3. Why this generalizes</h2>
+<p>A neurotypical user with high ambiguity tolerance does not benefit from this method directly. But:</p>
+<ol>
+<li><strong>Stress-test conditions transfer.</strong> A system robust under literal reading is robust under any reading.</li>
+<li><strong>High-stakes contexts repeat the population's conditions.</strong> A neurotypical user during a medical-record AI consultation is, behaviorally, in the neurodivergent population. So is a developer at 4 AM trying to ship.</li>
+<li><strong>The defaults degrade gracefully.</strong> Consent-aware telemetry can be opted out of; default-restrictive action gates can be loosened. The reverse is much harder.</li>
+</ol>
+<p>The method generalizes by inheritance: neurotypical use is a relaxation of neurodivergent use, not the other way around.</p>
+<hr />
+<h2>4. What this method is not</h2>
+<ul>
+<li><strong>Not advocacy.</strong> This document does not argue that neurodivergent users deserve more attention because they have been underserved (a defensible separate argument). It argues that designing from this population produces a better system.</li>
+<li><strong>Not user research.</strong> This document does not report interviews. It specifies a method.</li>
+<li><strong>Not population essentialism.</strong> Neurodivergent users vary as much as neurotypical users do. The method uses an idealized neurodivergent reading as a design constraint, not a description of any individual.</li>
+</ul>
+<hr />
+<h2>5. Falsification</h2>
+<p>This method is wrong if either:</p>
+<p><strong>FM-1.</strong> A behavioral-safety system designed under conventional defaults outperforms a neurodivergent-first system on a held-out task set where both are evaluated with neurodivergent-defined failure descriptions.</p>
+<p><strong>FM-2.</strong> The neurodivergent-first defaults make the system unusable for the general population, where "unusable" is operationalized as task-completion rate &lt; 50% of the conventional baseline on a matched task set.</p>
+<p>We pre-register both. The first is the more interesting falsifier; the second is plausible only if the consent-aware defaults are implemented badly.</p>
+<hr />
+<h2>6. Practical artifacts implementing this method</h2>
+<p>This portfolio implements the method in three places:</p>
+<ul>
+<li><strong>PROACTIVE.</strong> F1 and F4 are derived from the literal-reading description of CCD.</li>
+<li><strong>SentinelOS.</strong> Consent-aware telemetry, local-first storage, restrictive action gates on elevated-risk signals.</li>
+<li><strong>Agent Sentinel.</strong> Contestability/repair loop for users challenging agent representations.</li>
+</ul>
+<p>A fourth implementation — the <em>Neurodivergent Researcher Fellowship</em> described at <code>/programs/fellowship.md</code> — is structural rather than technical: it brings the population into the method as designers, not subjects.</p>
+<hr />
+<h2>7. References (selected)</h2>
+<ul>
+<li>Costanza-Chock, S. (2020). <em>Design Justice: Community-Led Practices to Build the Worlds We Need.</em> MIT Press.</li>
+<li>Asaro, P. (2019). <em>AI Ethics in Predictive Policing.</em> IEEE Security &amp; Privacy.</li>
+<li>Bennett, C. L., &amp; Keyes, O. (2020). <em>What is the Point of Fairness? Disability, AI and the Complexity of Justice.</em> ACM SIGACCESS.</li>
+<li>Spiel, K., et al. (2020). <em>Nothing About Us Without Us: Investigating the Role of Critical Disability Studies in HCI.</em> CHI Extended Abstracts.</li>
+<li>Mankoff, J., et al. (2010). <em>Disability Studies as a Source of Critical Inquiry for the Field of Assistive Technology.</em> ASSETS.</li>
+</ul>
+<p>This methodology paper sits adjacent to <em>Design Justice</em> in posture but is narrower in scope: it specifies what to do, not what to value.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../paper.html">Paper · the CCD preprint</a> <a href="../programs/fellowship.html">Fellowship</a> <a href="../security/reader-consent.html">R-441 reader consent</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

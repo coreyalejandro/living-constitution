@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Production hygiene package — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link is-active">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /governance/production-hygiene
+  </div>
+  <h1 class="op-title">Production hygiene package</h1>
+  <div class="op-status">
+    <span class="status-chip verified">v1.0</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/governance/production-hygiene.md</code> · v1.0 · 2026.05</p>
+<p>This document specifies the operational hygiene the runtime repo follows. The standards listed here are normal expectations for shipped open-source infrastructure. Their absence is read by serious engineering reviewers as immaturity, regardless of code quality.</p>
+<p>The list is short on purpose. Hygiene is not differentiation; it is the floor.</p>
+<hr />
+<h2>Semantic versioning</h2>
+<p>PROACTIVE and SentinelOS follow <a href="https://semver.org">SemVer 2.0</a>.</p>
+<ul>
+<li><strong>MAJOR</strong> version: incompatible API or detection-output schema changes.</li>
+<li><strong>MINOR</strong> version: feature additions, new detectors, new configuration options.</li>
+<li><strong>PATCH</strong> version: bug fixes, performance improvements, dependency bumps.</li>
+</ul>
+<p>A change to a PROACTIVE feature definition (F1–F4) is a <strong>MAJOR</strong> version bump even if the API surface is unchanged, because adopters' downstream calibration depends on the feature semantics.</p>
+<p>Public API surfaces are explicitly enumerated in <code>API.md</code>. Anything not enumerated is considered internal and may change between minors.</p>
+<hr />
+<h2>CHANGELOG</h2>
+<p>Every release has an entry in <code>CHANGELOG.md</code>. The format follows <a href="https://keepachangelog.com">Keep a Changelog</a>.</p>
+<p>Sample entry:</p>
+<pre><code class="language-markdown">## [1.2.0] — 2026-08-15
+
+### Added
+- F5 (claim-coverage ratio) as an experimental feature behind `--experimental f5`.
+- `sentinel diagnose` subcommand for inspecting borderline classifications.
+- Spec-first workload to the published benchmarks suite.
+
+### Changed
+- F2 acceptance window default lowered from 14 to 7 days based on benchmark calibration.
+- `make verify` runtime reduced from 73s to 58s.
+
+### Fixed
+- False positive on Cursor sessions where the agent appended status lines to a separate scratch buffer.
+
+### Deprecated
+- `sentinel scan --legacy-output`: will be removed in 2.0.
+
+### Security
+- None.
+</code></pre>
+<p>A release with no CHANGELOG entry is not a release. CI rejects tags without an accompanying entry.</p>
+<hr />
+<h2>Pinned dependencies</h2>
+<p>The repository uses <code>uv</code> with <code>uv.lock</code> for Python dependencies and <code>package-lock.json</code> for Node dependencies. Both lockfiles are committed.</p>
+<p><strong>No floating versions in production manifests.</strong> Every dependency has an exact version. Dependabot or Renovate updates are reviewed individually with the relevant tests run before merge.</p>
+<p>The reasoning: <code>make verify</code> must be byte-for-byte reproducible against the published hashes. Floating versions break that property.</p>
+<p>A <code>flake.nix</code> (Q3 2026 candidate, see roadmap) extends this guarantee to system-level dependencies.</p>
+<hr />
+<h2>CI gates</h2>
+<p>Every pull request must pass:</p>
+<ol>
+<li><strong>Lint</strong> — ruff for Python, eslint for Node. Strict mode; no <code>--ignore</code> for new code.</li>
+<li><strong>Type-check</strong> — mypy strict for Python; tsc strict for Node.</li>
+<li><strong>Test suite</strong> — 62/62 Constitution, 212/212 PROACTIVE, 88+/88+ SentinelOS, plus any new tests for the change.</li>
+<li><strong>Reproduce-path verify</strong> — <code>make verify</code> on Mac, Linux, Windows.</li>
+<li><strong>Benchmark regression check</strong> — if any operational metric regresses by more than 10%, the PR is blocked pending discussion. If a metric improves, that is noted in the CHANGELOG.</li>
+<li><strong>Documentation coverage</strong> — new public API surfaces require corresponding documentation updates. CI runs <code>make docs-coverage</code> against a target percentage.</li>
+<li><strong>CHANGELOG entry</strong> — any non-trivial change requires an entry. CI inspects.</li>
+</ol>
+<p>Failing any gate blocks merge. Override requires maintainer approval with a documented justification in the PR description.</p>
+<hr />
+<h2>Branch protection on <code>main</code></h2>
+<ul>
+<li><code>main</code> is the canonical released branch. All shipped artifacts derive from a tagged commit on <code>main</code>.</li>
+<li>Force-push disabled.</li>
+<li>Required reviews: 1 maintainer for routine changes; 2 for changes to PROACTIVE feature definitions or detection-output schemas.</li>
+<li>All CI must pass before merge.</li>
+<li>Squash-merge is the default; merge-commits are reserved for feature-branch merges from external contributors when commit-by-commit history matters.</li>
+</ul>
+<hr />
+<h2>Release procedure</h2>
+<ol>
+<li>Bump version in <code>pyproject.toml</code> and <code>package.json</code> per SemVer.</li>
+<li>Update <code>CHANGELOG.md</code>.</li>
+<li>Run <code>make verify</code> locally and confirm green.</li>
+<li>Run <code>make benchmarks</code> and update <code>benchmarks/[version]/</code>.</li>
+<li>Tag the commit (<code>vMAJOR.MINOR.PATCH</code>).</li>
+<li>Push tag. CI publishes the wheel, the npm package, and a GitHub release with the CHANGELOG entry as release notes.</li>
+<li>Sign the release artifacts and update <code>/provenance/manifest.json</code>.</li>
+<li>Announce in the project's quarterly amendment.</li>
+</ol>
+<p>A release that skips step 4 (benchmarks) is labeled "no-benchmark release" in the GitHub release notes. We publish the label so adopters can decide whether to skip.</p>
+<hr />
+<h2>Issue and PR templates</h2>
+<p><code>.github/ISSUE_TEMPLATE/</code> contains:</p>
+<ul>
+<li><code>bug.md</code> — bug reports with reproduce steps, expected vs. observed, environment, <code>sentinel diagnose</code> output where relevant.</li>
+<li><code>false-positive.md</code> — false positives with the scan output, the transcript (anonymized), and the reasoning for why it should not have triggered.</li>
+<li><code>false-negative.md</code> — false negatives with the scan output, the transcript, the reasoning for why it should have triggered.</li>
+<li><code>feature-request.md</code> — feature requests with use case, current workaround, and the smallest possible change that would address it.</li>
+<li><code>reproducibility.md</code> — <code>make verify</code> failures or hash mismatches, treated as P0.</li>
+</ul>
+<p><code>.github/PULL_REQUEST_TEMPLATE.md</code> requires:
+- Description of the change.
+- CHANGELOG impact (or "no changelog impact" with reason).
+- Benchmark impact (run if mechanical change to detection code).
+- New tests added or rationale for not adding.
+- Linked issue, if any.</p>
+<hr />
+<h2>Security disclosure</h2>
+<p><code>SECURITY.md</code> at the repo root specifies:
+- <code>security@coreyalejandro.com</code> as the disclosure address.
+- 90-day disclosure window from acknowledgment.
+- Bounty terms (see <code>/governance/bounty.md</code>).
+- Out-of-scope items (the documented evasion paths in the threat model).</p>
+<hr />
+<h2>Maintenance burden honesty</h2>
+<p>The current maintenance population is one person (the founder). Hygiene standards above are real expectations; missed deadlines on hygiene tasks are not unethical, but they need to be visible.</p>
+<p>The runtime repo's <code>STATUS.md</code> is updated weekly and publishes:
+- Open PRs older than 7 days.
+- Open issues older than 30 days.
+- Tests currently flaky or skipped.
+- Dependency vulnerabilities pending update.</p>
+<p>A reviewer evaluating maintainability of the project should look at <code>STATUS.md</code> first. Hygiene that is documented but not observed is worse than hygiene that is acknowledged as aspirational.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../runtime/reproduce.html">Reproduce path</a> <a href="../runtime/benchmarks.html">Benchmarks</a> <a href="../runtime/sdk.html">Open SDK</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

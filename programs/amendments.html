@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quarterly Amendments Cadence — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link is-active">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /governance/amendments-cadence
+  </div>
+  <h1 class="op-title">Quarterly Amendments Cadence</h1>
+  <div class="op-status">
+    <span class="status-chip in-progress">v1.0 · first amendment Q2 2026</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/governance/amendments-cadence.md</code> · v1.0 · 2026.05</p>
+<p>The Constitution metaphor on the homepage describes "amendments, not versions." A serious project that uses constitutional language needs to actually publish amendments on a cadence the field can rely on. This document specifies that cadence, what an amendment contains, and what counts as a successful amendment cycle.</p>
+<p>Funders, reviewers, and pilot adopters all reward rhythm. Rhythm is the cheapest legibility property the program can offer.</p>
+<hr />
+<h2>The cadence</h2>
+<p>One amendment per calendar quarter:</p>
+<ul>
+<li><strong>Q1 amendment:</strong> posted by 2026.06.30</li>
+<li><strong>Q2 amendment:</strong> posted by 2026.09.30</li>
+<li><strong>Q3 amendment:</strong> posted by 2026.12.31</li>
+<li><strong>Q4 amendment:</strong> posted by 2027.03.31</li>
+</ul>
+<p>The amendment is a single published document at <code>/amendments/[YYYY-Q].md</code> with a stable URL. Each amendment is also content-hashed, signed, and entered in the provenance manifest.</p>
+<hr />
+<h2>What an amendment contains</h2>
+<p>Six sections, in order:</p>
+<h3>1. State of the apparatus (200–400 words)</h3>
+<p>What is currently shipped, with version numbers. What changed since last amendment.</p>
+<h3>2. State of the claims (200–400 words)</h3>
+<p>What the CCD claim looked like at the start of the quarter, what evidence accumulated, what the claim looks like at end of quarter. Refutations, partial confirmations, scope changes.</p>
+<h3>3. State of the corpus (200–400 words)</h3>
+<p>Cases added (with provenance). Cases removed (with reasons). Inter-rater agreement updated. Held-out progress.</p>
+<h3>4. State of the program (200–400 words)</h3>
+<p>Funding raised. Advisory board changes. Pilots active or completed. Fellowship cohorts active or completed. Vendor disclosure updates. Sponsor status.</p>
+<h3>5. Reviewer-objections changes (variable)</h3>
+<p>New objections received this quarter. Responses written. Amendments to existing receipts.</p>
+<h3>6. The amendment itself (variable)</h3>
+<p>The actual textual changes to the Constitution: claims added, deprecated, or revised; artifacts amended or archived; new pages created. Each change carries a one-line rationale.</p>
+<h3>7. Outlook for next quarter (100–300 words)</h3>
+<p>What is expected to land in the next cycle. Explicitly not a roadmap commitment; an expectation statement with stated confidence.</p>
+<hr />
+<h2>What an amendment is <em>not</em></h2>
+<ul>
+<li>Not a marketing newsletter. The amendment is structured and dense. There is no celebratory framing.</li>
+<li>Not a complete project history. Significant events are captured; minor activity is not enumerated.</li>
+<li>Not a venue for new polemic. The polemic on the homepage is editorially-stable; amendments do not double as polemic.</li>
+<li>Not optional. Missing a quarterly amendment is a documented failure of the cadence and is itself reported in the <em>next</em> amendment under "what we owe you that did not ship."</li>
+</ul>
+<hr />
+<h2>How amendments are produced</h2>
+<p>Two-week window before the deadline:</p>
+<ul>
+<li><strong>Week -2.</strong> Founder drafts sections 1–4 from the inventory and the roadmap.</li>
+<li><strong>Week -1.</strong> Founder drafts sections 5–7. Advisory board (when seated) reviews. Two-day comment window for board members.</li>
+<li><strong>Day 0.</strong> Amendment posted, signed, hashed, linked from homepage. Subscribers notified.</li>
+</ul>
+<p>Total founder time per amendment: ~15 hours. Total board time per amendment: ~2 hours per member.</p>
+<hr />
+<h2>The first amendment (2026 Q1, hypothetical example)</h2>
+<p>For illustration, here is what the first amendment might contain:</p>
+<pre><code># Amendment 2026-Q1
+## State of the apparatus
+PROACTIVE v1.0.2 (212/212), SentinelOS v1.0.0 (88/88), Constitution v1.0.0 (62/62).
+This quarter: bug fix in F2 acceptance window; spec for v1.1 calibration drafted; 
+no breaking changes.
+
+## State of the claims
+CCD construct definition stable. Pre-registration v1 posted (OSF). Held-in detection 
+result unchanged at 100% on n=19 (n=18 excluding FOLIO 001). Held-out corpus 
+recruitment open; 3 partner conversations active.
+
+## State of the corpus
+0 cases added (held-in frozen). 0 cases removed. Held-out: 0 of target ≥100 currently 
+labeled; partner pipeline yielding first batch in Q2.
+
+## State of the program
+Funding: $0 raised. Fiscal sponsor: in negotiation (OCF Tier-1). Advisory board: 
+3 letters sent, 1 awaiting response, 2 declined politely with referrals. Pilots: 
+0 active. Disclosure log: 4 entries published, no changes this quarter.
+
+## Reviewer-objections changes
+1 new objection received (from named reviewer X), responded in the receipts page. 
+2 existing receipts amended with citations.
+
+## The amendment itself
+- /folio/001/framing.md created — demotes FOLIO 001 to Case 0
+- /governance/reader-consent.md v1.1 — R-441 opt-in default
+- /paper/ccd-v0.1.pdf published on the site (no change from preprint v0.1)
+- /research/test-design.md created — describes what each test suite tests
+
+## Outlook for next quarter
+Expected: first 2 advisory board members confirmed; OCF agreement signed; first 
+partner-curated batch of held-out cases received. Not expected: held-out result; 
+peer-reviewed venue acceptance; pilot launched.
+</code></pre>
+<p>The amendment is publishable. The amendment is shorter than this entire enhancement package. Both are correct.</p>
+<hr />
+<h2>What rhythm produces</h2>
+<p>A funder who reads four consecutive amendments in a row sees a project that:
+- Ships on a cadence.
+- Reports honestly on what shipped and what didn't.
+- Updates the public record without prompting.
+- Treats its own slippage as visible rather than buried.</p>
+<p>This is the basis on which a funder writes a second-year check.</p>
+<p>A reviewer who sees four amendments sees a research program with a real publication record, not a single preprint plus optimism.</p>
+<p>A pilot adopter sees a vendor — a research nonprofit, really — they can plan against.</p>
+<hr />
+<h2>What kills the cadence</h2>
+<p>The cadence breaks if:
+- A quarter is skipped silently. (Visible failure mode; rebuild trust over multiple cycles.)
+- A quarter is published but contains nothing material. (Trust erosion; visible.)
+- Amendments are made out of cycle to bury bad news. (Worst failure mode; the cadence becomes a transparency tool, not a marketing tool, and out-of-cycle "amendments" undermine that.)</p>
+<p>If the founder is unable to ship a quarterly amendment, the amendment for that quarter is <em>still posted</em>, with the section "what we owe you that did not ship" filled out honestly.</p>
+<hr />
+<h2>Subscription</h2>
+<p>Readers can subscribe to amendment notifications via the path described at <code>/subscribe.md</code>. Subscriptions are opt-in, double-confirmed, and unsubscribe-on-one-click. The subscription list is not used for any other purpose.</p>
+    
+<hr>
+<h2 id="public-queue">Public Amendment Queue</h2>
+<p>This is the live queue. Local proposals you draft (via text-selection on any operational page) show up here under <em>Your queued amendments</em>. The <em>Seed examples</em> below are demonstrations of what proposals look like; the real queue grows as readers contribute.</p>
+
+<h3>Your queued amendments</h3>
+<div id="your-amendments">
+  <p style="font-family: var(--serif); font-style: italic; color: var(--ink-faint);">No proposals yet on this device. Select any sentence on a page (paper, threat model, methodology, etc.), then click "Propose Amendment" to stage one.</p>
+</div>
+
+<h3>Seed examples</h3>
+<ul class="amend-queue">
+  <li>
+    <div class="source">on /paper · §4 founding case · seeded</div>
+    <div class="original-q">"The full 4,025-line transcript is published under the file <em>Kiro_lies-and-deception.md</em>…"</div>
+    <div class="proposed-q">"The full 4,025-line transcript is published under <em>Kiro_lies-and-deception.md</em> with a SHA-256 content hash and OpenTimestamps anchor; verification procedure at /security/provenance."</div>
+    <div class="rationale-q">Strengthens the provenance link by explicitly naming the verification chain the existing provenance page documents.</div>
+    <div class="meta-q">proposed 2026-05-12 · status: open</div>
+  </li>
+  <li>
+    <div class="source">on /security/threat-model · §6 Adv-2 · seeded</div>
+    <div class="original-q">"Recall on this path: 0.74 (held-in)."</div>
+    <div class="proposed-q">"Recall on this evasion path: 0.74 on the held-in corpus (n=19). The held-out evaluation (pre-registered) will report this number on n≥100; until that lands, the held-in figure is a development-set bound."</div>
+    <div class="rationale-q">The held-in qualifier currently appears once; making it explicit per-evasion makes the calibration limitation impossible to miss.</div>
+    <div class="meta-q">proposed 2026-05-08 · status: amended</div>
+  </li>
+  <li>
+    <div class="source">on /research/methodology · §3 step 3 · seeded</div>
+    <div class="original-q">"Default to consent-aware. The system asks before observing. No silent telemetry."</div>
+    <div class="proposed-q">"Default to consent-aware. The system asks before observing. No silent telemetry. The first instantiation of this default is R-441 v1.1 — see /security/reader-consent."</div>
+    <div class="rationale-q">Adds the explicit forward-reference; methodology paper currently doesn't cite the live implementation.</div>
+    <div class="meta-q">proposed 2026-05-03 · status: accepted (merged in v0.1.1)</div>
+  </li>
+</ul>
+
+<script>
+  // Hydrate "Your queued amendments" from localStorage
+  (function () {
+    if (!window.Amendments) return;
+    const list = window.Amendments.load();
+    if (list.length === 0) return;
+    const root = document.getElementById('your-amendments');
+    const ul = document.createElement('ul');
+    ul.className = 'amend-queue';
+    list.forEach(p => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <div class="source">on /${p.page} · local · ${p.id}</div>
+        <div class="original-q">${escapeHtml(p.original)}</div>
+        <div class="proposed-q">${escapeHtml(p.proposed)}</div>
+        <div class="rationale-q">${escapeHtml(p.rationale) || '<em>(no rationale provided)</em>'}</div>
+        <div class="meta-q">proposed ${p.proposed_at.slice(0,10)} · status: ${p.source}</div>
+      `;
+      ul.appendChild(li);
+    });
+    root.innerHTML = '';
+    root.appendChild(ul);
+    function escapeHtml(s) {
+      return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  })();
+</script>
+
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../roadmap.html">Roadmap</a> <a href="../programs/amendments.html">Quarterly amendments cadence</a> <a href="../subscribe.html">Subscribe</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

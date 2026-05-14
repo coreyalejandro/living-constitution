@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pilot deployment proposal template — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link is-active">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /programs/pilot-template
+  </div>
+  <h1 class="op-title">Pilot deployment proposal template</h1>
+  <div class="op-status">
+    <span class="status-chip in-progress">v1.0 · 0 active · 2 in conversation</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/programs/pilot-template.md</code> · v1.0 · 2026.05</p>
+<p>This template is the standard offer made to partner labs and enterprises considering a 90-day Agent Sentinel pilot. The template is the public deliverable; concrete pilots are negotiated against it and the resulting agreements are published at <code>/programs/pilots/[partner]/</code> with the partner's consent.</p>
+<p>A pilot is the most efficient mechanism for converting Agent Sentinel from a research claim into a referenceable case. It is also the mechanism by which the Open SDK and the plug-in spec mature.</p>
+<hr />
+<h2>What a pilot is</h2>
+<p>A 90-day engagement in which a partner runs Agent Sentinel in their coding-assistant workflow, monitored, with mutual reporting and a public co-evaluation at the end.</p>
+<p>The partner brings:
+- A coding-assistant workflow (in-house product, an enterprise deployment, or a research lab's internal tooling).
+- One named pilot lead with the authority to commit ~4 hours/week to the pilot.
+- A defined evaluation question: what would a "yes, expand to production" answer look like?
+- Willingness to publish (or co-publish, anonymized as needed) a 90-day report.</p>
+<p>The Constitution brings:
+- Agent Sentinel installed and configured for the partner's runtime.
+- A weekly review of Sentinel detections, false positives, and partner-flagged questions.
+- The PROACTIVE detector adapted to the partner's coding-assistant model family (within reason).
+- The threat model updated with any deployment-specific concerns surfaced during the pilot.
+- A co-authored 90-day report at the pilot's conclusion.</p>
+<hr />
+<h2>Pilot objectives</h2>
+<p>A successful pilot answers, with evidence, the following questions:</p>
+<p><strong>Q1.</strong> What is Agent Sentinel's operational footprint in this deployment? (Latency, memory, CPU, disk; collected weekly.)</p>
+<p><strong>Q2.</strong> What is Agent Sentinel's precision and recall on this partner's interactions? (Sampled and reviewed weekly; reviewed comprehensively at end of pilot.)</p>
+<p><strong>Q3.</strong> What does the partner's user population do with Sentinel detections? (Acted on, dismissed, ignored; tracked by anonymous logs with consent.)</p>
+<p><strong>Q4.</strong> What false-positive surfaces are specific to this partner's deployment context? (Categorized; fed into PROACTIVE v2 calibration.)</p>
+<p><strong>Q5.</strong> What configuration changes would be required for production deployment? (Specified at pilot close.)</p>
+<hr />
+<h2>Terms</h2>
+<h3>Compensation</h3>
+<p>Pilots are <em>paid</em> engagements. The partner pays $30,000 per pilot. The compensation covers:
+- Constitutional engineer time (10 hours/week × 13 weeks).
+- Founder participation (4 hours/week × 13 weeks).
+- Co-evaluation report production.</p>
+<p>When the partner is a non-profit AI-safety research lab without a budget for paid pilots, an in-kind exchange is possible: e.g., the lab provides a published case study and co-evaluation in lieu of payment. In-kind pilots require sponsor approval (because they affect the fiscal sponsor's reporting).</p>
+<h3>Intellectual property</h3>
+<ul>
+<li>The Constitution retains rights to all detector improvements and PROACTIVE updates produced during the pilot. These are licensed back to the partner under MIT (the existing license).</li>
+<li>The partner retains rights to all of their interaction data, configurations, and any proprietary integrations they build.</li>
+<li>The 90-day report is co-authored and dual-published.</li>
+</ul>
+<h3>Data handling</h3>
+<ul>
+<li>Sentinel's local-first architecture is preserved. No partner interaction data leaves the partner's machines without explicit consent on a per-instance basis.</li>
+<li>Aggregated statistics (counts, rates, no transcripts) may be shared with the Constitution for PROACTIVE calibration. Specific consent required.</li>
+<li>The partner retains the right to redact any portion of the joint report before publication.</li>
+</ul>
+<h3>Publication</h3>
+<ul>
+<li>The 90-day report is published whether the result is favorable to Agent Sentinel or not. This is non-negotiable.</li>
+<li>"Favorable" and "unfavorable" outcomes both count as successful pilots from the Constitution's perspective. The asymmetric harm is suppressed reporting, not negative findings.</li>
+<li>If the partner requires anonymization, the report is published with the partner identified by industry sector and rough scale rather than by name.</li>
+</ul>
+<h3>Termination</h3>
+<p>Either party can terminate with 14 days' notice. Termination triggers a partial-pilot report covering the work to date. The partial report is published with the same standard as a full report.</p>
+<hr />
+<h2>Timeline</h2>
+<table>
+<thead>
+<tr>
+<th>Week</th>
+<th>Activity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Sentinel installation and configuration; threat model walkthrough; baseline measurement</td>
+</tr>
+<tr>
+<td>2</td>
+<td>First detections; weekly review begins</td>
+</tr>
+<tr>
+<td>3–6</td>
+<td>Active monitoring; partner team trained on contestability/repair loop</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Mid-pilot review; configuration adjustments</td>
+</tr>
+<tr>
+<td>8–11</td>
+<td>Continued monitoring; per-week reports</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Closing measurements</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Co-evaluation report drafted, reviewed, and published</td>
+</tr>
+</tbody>
+</table>
+<p>Weekly check-ins are 60 minutes. Mid-pilot review is 2 hours. Closing review is 2 hours plus report drafting.</p>
+<hr />
+<h2>Pilot selection criteria</h2>
+<p>We do not pilot with every interested partner. Selection criteria, in priority order:</p>
+<ol>
+<li><strong>The partner has CCD-shaped failures already.</strong> Coding-assistant deployments where the partner has logged or observed at least one CCD-suspect incident. We are not a hypothetical-risk product.</li>
+<li><strong>The partner can publish.</strong> Partners under embargo or NDA that prevents publishing the co-evaluation are deprioritized. Partners that can publish anonymized are acceptable.</li>
+<li><strong>The partner has a defined success criterion.</strong> Partners that cannot articulate what would convince them to expand are deprioritized.</li>
+<li><strong>The partner's deployment is representative.</strong> Partners with unusual coding-assistant setups (one-off integrations, deprecated agents, internal tools no one outside the partner uses) produce less generalizable learnings.</li>
+<li><strong>Order of arrival.</strong> Otherwise, first-come.</li>
+</ol>
+<p>We expect to run 2 pilots in the first 12 months and 4 in the first 24 months. More than 4 pilots concurrently is operationally infeasible at current staffing.</p>
+<hr />
+<h2>What this template does <em>not</em> do</h2>
+<ul>
+<li>Does not commit either party to a follow-on engagement.</li>
+<li>Does not bind the partner to adopt Agent Sentinel in production.</li>
+<li>Does not require either party to endorse the other's broader work.</li>
+<li>Does not allow either party to claim the other's findings in marketing without explicit consent.</li>
+</ul>
+<p>The template is a starting point. Specific pilots may negotiate variations, which are documented in the per-pilot agreement and explained in the co-evaluation report.</p>
+<hr />
+<h2>Sample inquiry response</h2>
+<blockquote>
+<p>Thanks for your interest in a pilot. The template at <code>/programs/pilot-template.md</code> is the starting point. To move forward, please send:</p>
+<ol>
+<li>A one-paragraph description of your coding-assistant deployment.</li>
+<li>The CCD-suspect incident(s) that motivated this inquiry.</li>
+<li>Your defined success criterion for the pilot.</li>
+<li>Your timeline preference.</li>
+</ol>
+<p>We will respond within 5 business days with either:
+(a) A scheduled call to discuss specifics.
+(b) A list of items we'd need clarified before proceeding.
+(c) A decline with reasoning, if we don't have capacity or the fit isn't right.</p>
+</blockquote>
+<p>The "decline with reasoning" option is intentional. Not every inquiry results in a pilot; the ones that do are the ones the template fits.</p>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../runtime/quickstart.html">Quickstart</a> <a href="../runtime/benchmarks.html">Benchmarks</a> <a href="../runtime/sdk.html">Open SDK</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>

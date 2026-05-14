@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reproduce path — The Living Constitution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body class="register-operational">
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="../index.html" class="topbar-brand">The Living <span class="em">Constitution</span></a>
+    <nav class="topbar-nav">
+      <a href="../paper.html" class="topbar-link">Paper</a> <a href="../folio/001.html" class="topbar-link">Folio 001</a> <a href="../detector.html" class="topbar-link">Detector</a> <a href="../research/corpus.html" class="topbar-link">Research</a> <a href="../security/threat-model.html" class="topbar-link">Security</a> <a href="../governance/coi.html" class="topbar-link">Governance</a> <a href="../programs/pilot.html" class="topbar-link">Programs</a> <a href="../runtime/reproduce.html" class="topbar-link is-active">Runtime</a> <a href="../sitemap.html" class="topbar-link">Map</a>
+      <span class="topbar-kernel-hint">Ctrl+` Kernel</span>
+    </nav>
+  </div>
+</header>
+
+
+<main class="op-page">
+  <div class="op-eyebrow">
+    <a href="../index.html" class="crumb-link">home</a> · /runtime/reproduce
+  </div>
+  <h1 class="op-title">Reproduce path</h1>
+  <div class="op-status">
+    <span class="status-chip verified">62/62 · 212/212 · 88/88</span>
+  </div>
+  <div class="op-content">
+    <p><strong>Path:</strong> <code>/runtime/reproduce.md</code> and <code>Makefile</code> at repo root · v1.0 · 2026.05</p>
+<p>The portfolio's claim "the repos are not typography" is defended by a single command that any external reviewer can run. This document specifies that command, the expected output, and the failure modes that mean it didn't work.</p>
+<p>A reviewer who cannot reproduce these numbers in 90 seconds on a 2024-era developer laptop should treat the portfolio's quantitative claims as unverified.</p>
+<hr />
+<h2>The command</h2>
+<pre><code class="language-bash">git clone https://github.com/coreyalejandro/living-constitution.git
+cd living-constitution
+make verify
+</code></pre>
+<p>That is the entire reproduce path. No additional setup beyond having <code>git</code> and <code>make</code> installed.</p>
+<h2>Expected output (target wall-clock $\leq 90$ s)</h2>
+<pre><code>==&gt; Living Constitution verify
+==&gt; Detecting environment
+    OS: &lt;darwin|linux|win-msys&gt;
+    Python: 3.12.x
+    Node: 22.x
+==&gt; Resolving dependencies (uv)
+    OK · 0.8s
+==&gt; Constitution test suite
+    62 passed, 0 failed in 12.3s
+==&gt; PROACTIVE detector test suite
+    212 passed, 0 failed in 41.7s
+==&gt; SentinelOS runtime test suite
+    [LOC count: src 1037 · tests 994]
+    runtime tests: 88 passed, 0 failed in 18.4s
+==&gt; Hashes
+    constitution-tests : sha256:abc...
+    proactive-tests    : sha256:def...
+    sentinelos-tests   : sha256:123...
+==&gt; SUCCESS · all suites green · cumulative wall-clock 73.2s
+==&gt; Hash log appended to .verify/verify-2026-05-18T13-04-22Z.log
+</code></pre>
+<p>The hash log is committed-tracked to enable longitudinal verification: if a future version of this repo reports the same hash, the same tests passed.</p>
+<h2>What the Makefile does (verbatim, abbreviated)</h2>
+<pre><code class="language-makefile">.PHONY: verify verify-clean install-deps test-constitution test-proactive test-sentinelos hash-log
+
+verify: install-deps test-constitution test-proactive test-sentinelos hash-log
+    @echo &quot;==&gt; SUCCESS · all suites green&quot;
+
+install-deps:
+    @command -v uv &gt;/dev/null || (echo &quot;ERROR: uv not installed; see https://docs.astral.sh/uv&quot; &amp;&amp; exit 1)
+    @uv sync --frozen
+    @command -v node &gt;/dev/null || (echo &quot;ERROR: node 22+ required&quot; &amp;&amp; exit 1)
+    @npm ci --silent
+
+test-constitution:
+    @uv run pytest -q tests/constitution/
+
+test-proactive:
+    @uv run pytest -q tests/proactive/
+
+test-sentinelos:
+    @uv run pytest -q tests/sentinelos/
+
+hash-log:
+    @mkdir -p .verify
+    @.verify/sign-and-log.sh &gt; .verify/verify-$$(date -u +%Y-%m-%dT%H-%M-%SZ).log
+
+verify-clean: verify
+    @.verify/check-clean.sh
+</code></pre>
+<p>The Makefile is intentionally short. Complex setup is a reproducibility hazard.</p>
+<h2>Required environment</h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Minimum</th>
+<th>Tested</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td>3.11</td>
+<td>3.12.7</td>
+</tr>
+<tr>
+<td>Node</td>
+<td>20</td>
+<td>22.13</td>
+</tr>
+<tr>
+<td><code>uv</code> (Python package manager)</td>
+<td>0.5</td>
+<td>0.5.4</td>
+</tr>
+<tr>
+<td><code>make</code></td>
+<td>GNU make 3.81 or BSD make</td>
+<td>GNU make 4.4</td>
+</tr>
+<tr>
+<td>Disk space</td>
+<td>800 MB</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>4 GB</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>required for first clone; not required for verify</td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>Verified on:
+- macOS 14.6 (Apple Silicon, x86_64 via Rosetta)
+- Ubuntu 22.04, 24.04
+- Windows 11 via MSYS2 / Git Bash</p>
+<p>CI runs the same <code>make verify</code> on push to <code>main</code> on all three OSes. The CI badge on the README is the canonical "right now" status; the published numbers are the canonical "v1.0 release" status.</p>
+<h2>What "verify" does <em>not</em> prove</h2>
+<p>The reproduce path proves that the tests pass. It does not prove:</p>
+<ul>
+<li>That the tests cover what the paper claims they cover. Test coverage and semantic alignment are inspected in the test-design review (<code>/research/test-design-review.md</code>).</li>
+<li>That the PROACTIVE features extract the signal the preprint defines. Feature-level validation is the corpus disclosure's job, not the test suite's.</li>
+<li>That Agent Sentinel reduces real-world harm. That is the pilot evaluations' job.</li>
+</ul>
+<p>The repo passing <code>make verify</code> is a necessary condition for the portfolio's quantitative claims; it is not sufficient. The portfolio is honest about this distinction.</p>
+<h2>Failure modes and remedies</h2>
+<h3>F-1. <code>make verify</code> fails on first run with <code>ERROR: uv not installed</code></h3>
+<p>Install <code>uv</code> per the link in the error. This is the most common first-run failure.</p>
+<h3>F-2. <code>make verify</code> fails partway with test errors</h3>
+<p>File an issue at <code>https://github.com/coreyalejandro/living-constitution/issues</code> with the full output. We treat reproducibility regressions as P0 bugs.</p>
+<h3>F-3. <code>make verify</code> succeeds but the hashes do not match the published values</h3>
+<p>Two possibilities:
+1. A patched dependency changed test output. Check <code>.verify/dep-changes.log</code>. If a dep changed, that is a reproducibility incident — file an issue.
+2. Network-time skew or locale differences in test output. Run <code>.verify/normalize.sh</code> to canonicalize and retry.</p>
+<h3>F-4. <code>make verify</code> exceeds 90 seconds wall-clock</h3>
+<p>Likely environment-specific (slow disk; CPU thermal throttling; first-run dependency resolution). Run <code>make verify</code> a second time with deps cached; expected runtime should drop to $\leq 60$s.</p>
+<h3>F-5. CI is red on <code>main</code></h3>
+<p>We do not publish a verify-green claim while CI is red. The badge reflects current state. The README links to the last green commit and the cause of the red.</p>
+<h2>Reproducibility incident protocol</h2>
+<p>Any failure of <code>make verify</code> to reproduce the published numbers triggers:
+1. An issue marked <code>reproducibility</code> with full output.
+2. A response within 48 hours from the maintainer.
+3. A root-cause analysis within 7 days.
+4. A post-mortem at <code>/post-mortems/</code> if the root cause involves the repository (not the reporter's environment).
+5. If the published numbers were materially wrong, a correction notice on the homepage and a version bump on the affected components.</p>
+<p>Reproducibility is treated as a first-class property of this project. The cost of <code>make verify</code> failing is high enough that we are willing to set explicit incident response expectations.</p>
+<h2>Future hardening</h2>
+<ul>
+<li><strong>v1.1 (Q3 2026).</strong> Add a <code>nix flake check</code> path for fully-pinned reproducibility independent of <code>uv</code>/<code>npm</code>.</li>
+<li><strong>v1.2 (Q4 2026).</strong> Add timestamping of verify runs to Open Timestamps for tamper-evidence on a chain of reproducibility receipts over time.</li>
+<li><strong>v1.3 (2027).</strong> Build a public reproducibility dashboard showing weekly <code>make verify</code> runs by independent reproducers (opt-in submissions).</li>
+</ul>
+    
+  </div>
+  
+<div class="op-related">
+  <div class="op-related-eyebrow">Related surfaces</div>
+  <div class="op-related-links">
+    <a href="../runtime/quickstart.html">Quickstart</a> <a href="../runtime/benchmarks.html">Benchmarks</a> <a href="../runtime/production-hygiene.html">Production hygiene</a> <a href="../security/provenance.html">Provenance manifest</a>
+  </div>
+</div>
+</main>
+
+
+<footer class="sitefoot">
+  <div class="sitefoot-inner">
+    <div class="sitefoot-col">
+      <h4>The Living Constitution</h4>
+      <p class="sitefoot-stmt">A research instrument for behavioral AI safety. Built from a documented case of agent deception. Amended in public.</p>
+      <p class="sitefoot-stmt" style="margin-top: 12px;">Corey Alejandro · independent researcher · <a href="../about.html">about</a> · <a href="../subscribe.html">subscribe</a></p>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Research</h4>
+      <a href="../paper.html">Paper (CCD)</a>
+      <a href="../research/corpus.html">Corpus</a>
+      <a href="../research/lit-review.html">Lit review</a>
+      <a href="../research/taxonomy.html">Taxonomy</a>
+      <a href="../research/methodology.html">Methodology</a>
+      <a href="../research/pre-registration.html">Pre-registration</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Apparatus</h4>
+      <a href="../runtime/reproduce.html">Reproduce path</a>
+      <a href="../runtime/quickstart.html">Quickstart</a>
+      <a href="../runtime/benchmarks.html">Benchmarks</a>
+      <a href="../runtime/sdk.html">Open SDK</a>
+      <a href="../runtime/plugin.html">Plug-in spec</a>
+      <a href="../detector.html">Detector</a>
+    </div>
+    <div class="sitefoot-col">
+      <h4>Program</h4>
+      <a href="../funding-ask.html">Funding ask</a>
+      <a href="../governance/coi.html">Conflicts of interest</a>
+      <a href="../governance/disclosures.html">Disclosure log</a>
+      <a href="../programs/pilot.html">Pilot program</a>
+      <a href="../programs/fellowship.html">Fellowship</a>
+      <a href="../sitemap.html">Full sitemap</a>
+    </div>
+  </div>
+</footer>
+
+
+<script src="../assets/hud.js"></script>
+<script src="../assets/kernel.js"></script>
+<script src="../assets/detector.js"></script>
+<script src="../assets/amendments.js"></script>
+<script src="../assets/site.js"></script>
+
+</body>
+</html>
